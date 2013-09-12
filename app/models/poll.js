@@ -14,27 +14,29 @@ var PollSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    title: {
+    name: {
         type: String,
         default: '',
         trim: true
     },
-    content: {
-        type: String,
-        default: '',
-        trim: true
+    eventDate: {
+        type: Date,
+        default: Date.now
     },
-    user: {
+    owner: {
         type: Schema.ObjectId,
         ref: 'User'
-    }
+    },
+    choices: [{ 
+        type: Schema.Types.ObjectId, ref: 'Choice' 
+    }]
 });
 
 /**
  * Validations
  */
-PollSchema.path('title').validate(function(title) {
-    return title.length;
+PollSchema.path('name').validate(function(name) {
+    return name.length;
 }, 'Title cannot be blank');
 
 /**
