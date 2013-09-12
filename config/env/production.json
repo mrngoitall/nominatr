@@ -1,7 +1,7 @@
 {
     "db": "mongodb://localhost/mean",
     "app": {
-        "name": "MEAN - A Modern Stack - Production"
+        "name": "NOMinatr - Pick your noms - Production"
     },
     "facebook": {
         "clientID": "APP_ID",

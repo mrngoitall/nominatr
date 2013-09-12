@@ -1,0 +1,6 @@
+<section data-ng-controller="PollsController" data-ng-init="findOne()">
+	<span>{{poll.created | date:'medium'}}</span> /
+	<span>{{poll.user.name}}</span>
+	<h2>{{poll.title}} <a data-ng-show="global.user._id == poll.user._id" href="/#!/polls/{{poll._id}}/edit">edit</a></h2>
+	<div>{{poll.content}}</div>
+</section>

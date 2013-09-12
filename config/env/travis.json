@@ -2,7 +2,7 @@
     "db": "mongodb://localhost/mean-travis",
     "port": 3001,
     "app": {
-        "name": "MEAN - A Modern Stack - Test on travis"
+        "name": "NOMinatr - Pick your noms - Test on travis"
     },
     "facebook": {
         "clientID": "APP_ID",

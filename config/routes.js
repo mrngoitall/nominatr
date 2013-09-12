@@ -62,16 +62,16 @@ module.exports = function(app, passport, auth) {
     //Finish with setting up the userId param
     app.param('userId', users.user);
 
-    //Article Routes
-    var articles = require('../app/controllers/articles');
-    app.get('/articles', articles.all);
-    app.post('/articles', auth.requiresLogin, articles.create);
-    app.get('/articles/:articleId', articles.show);
-    app.put('/articles/:articleId', auth.requiresLogin, auth.article.hasAuthorization, articles.update);
-    app.del('/articles/:articleId', auth.requiresLogin, auth.article.hasAuthorization, articles.destroy);
+    //Poll Routes
+    var polls = require('../app/controllers/polls');
+    app.get('/polls', polls.all);
+    app.post('/polls', auth.requiresLogin, polls.create);
+    app.get('/polls/:pollId', polls.show);
+    app.put('/polls/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, polls.update);
+    app.del('/polls/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, polls.destroy);
 
-    //Finish with setting up the articleId param
-    app.param('articleId', articles.article);
+    //Finish with setting up the pollId param
+    app.param('pollId', polls.poll);
 
     //Home route
     var index = require('../app/controllers/index');
