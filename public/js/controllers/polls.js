@@ -1,6 +1,14 @@
 angular.module('mean.polls').controller('PollsController', ['$scope', '$routeParams', '$location', 'Global', 'Polls', function ($scope, $routeParams, $location, Global, Polls) {
     $scope.global = Global;
 
+    $scope.addNewChoice = function() {
+      $scope.choice.push({'something':'blah'});
+    };
+
+    $scope.submitPoll = function(poll) {
+      console.log(poll);
+    };
+
     $scope.create = function() {
         var poll = new Polls({
             title: this.title,
@@ -11,7 +19,7 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
         });
 
         this.title = "";
-        this.content = "";
+        this.choice = [{},{},{}];
     };
 
     $scope.remove = function(poll) {

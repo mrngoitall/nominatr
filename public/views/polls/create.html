@@ -1,21 +1,23 @@
 <section data-ng-controller="PollsController">
-	<form class="form-horizontal" data-ng-submit="create()">
-		<div class="control-group">
-			<label class="control-label" for="name">Name</label>
-			<div class="controls">
-				<input type="text" data-ng-model="name" id="name" placeholder="Name" required>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="content">Content</label>
-			<div class="controls">
-				<textarea data-ng-model="content" id="content" cols="30" rows="10" placeholder="Content"></textarea>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<input type="submit" class="btn">
-			</div>
-		</div>
-	</form>
+  <form class="form-horizontal" data-ng-submit="create()">
+    <div class="control-group">
+      <label class="control-label" for="name">Name</label>
+      <div class="controls">
+        <input type="text" data-ng-model="name" id="name" placeholder="Name" required>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="choice">Choices</label>
+      <div class="controls" ng-repeat="choice in choices">
+        <div poll-choice ng-model="choice"></div>
+      </div>
+    </div>
+    <button ng-click="addNewChoice()">Add</button>
+
+    <div class="control-group">
+      <div class="controls">
+        <input type="submit" class="btn">
+      </div>
+    </div>
+  </form>
 </section>
