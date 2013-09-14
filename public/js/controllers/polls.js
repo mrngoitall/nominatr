@@ -9,10 +9,6 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       $scope.choices.push({'id':'choice'+newItemNo});
     };
 
-    $scope.submitPoll = function(poll) {
-      console.log(poll);
-    };
-
     $scope.create = function() {
         var poll = new Polls({
             title: this.title,
