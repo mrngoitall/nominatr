@@ -1,5 +1,5 @@
 <section data-ng-controller="PollsController">
-  <form class="form-horizontal" data-ng-submit="create()">
+  <form class="form-horizontal">
     <div class="control-group">
       <label class="control-label" for="name">Name</label>
       <div class="controls">
@@ -16,7 +16,7 @@
 
     <div class="control-group">
       <div class="controls">
-        <input type="submit" class="btn">
+        <input type="submit" data-ng-click="create()" class="btn">
       </div>
     </div>
   </form>

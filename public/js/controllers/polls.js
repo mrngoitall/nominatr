@@ -15,7 +15,7 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
             choices: this.choices
         });
         poll.$save(function(response) {
-            $location.path("polls/" + response._id);
+            $location.path("polls/" + response.poll._id);
         });
 
         this.name = "";
