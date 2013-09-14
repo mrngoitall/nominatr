@@ -11,8 +11,8 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
 
     $scope.create = function() {
         var poll = new Polls({
-            title: this.title,
-            content: this.content
+            name: this.name,
+            choices: this.choices
         });
         poll.$save(function(response) {
             $location.path("polls/" + response._id);
