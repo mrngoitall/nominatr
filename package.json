@@ -32,7 +32,8 @@
     "bower": "latest",
     "forever": "latest",
     "foreman": "0.0.25",
-    "stylus": "~0.37.0"
+    "stylus": "~0.37.0",
+    "bcrypt": "latest"
   },
   "devDependencies": {
     "supertest": "latest",

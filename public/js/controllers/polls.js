@@ -1,8 +1,12 @@
 angular.module('mean.polls').controller('PollsController', ['$scope', '$routeParams', '$location', 'Global', 'Polls', function ($scope, $routeParams, $location, Global, Polls) {
     $scope.global = Global;
 
+    $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
+
     $scope.addNewChoice = function() {
-      $scope.choice.push({'something':'blah'});
+      var newItemNo = $scope.choices.length+1;
+
+      $scope.choices.push({'id':'choice'+newItemNo});
     };
 
     $scope.submitPoll = function(poll) {
@@ -18,8 +22,7 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
             $location.path("polls/" + response._id);
         });
 
-        this.title = "";
-        this.choice = [{},{},{}];
+        this.name = "";
     };
 
     $scope.remove = function(poll) {
