@@ -27,6 +27,10 @@ var ChoiceSchema = new Schema({
     type: Boolean,
     default: 0
   },
+  order: {
+    type: Number,
+    default: 0
+  },
   votes: [{ 
     type: Schema.Types.ObjectId, ref: 'Vote' 
   }]

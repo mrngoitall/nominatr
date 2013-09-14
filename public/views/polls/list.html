@@ -2,10 +2,9 @@
 	<ul class="polls unstyled">
 		<li data-ng-repeat="poll in polls">
 			<span>{{poll.created | date:'medium'}}</span> /
-			<span>{{poll.user.name}}</span>
-			<h2><a data-ng-href="#!/polls/{{poll._id}}">{{poll.title}}</a></h2>
-			<div>{{poll.content}}</div>
+			<span>{{poll.owner.name}}</span>
+			<h2><a data-ng-href="#!/polls/{{poll._id}}">{{poll.name}}</a></h2>
 		</li>
 	</ul>
-	<h1 data-ng-hide="!polls || polls.length">No polls yet. <br> Why don't you <a href="/#!/polls/create">Create One</a>?</h1>
+	<h1 data-ng-hide="!polls || polls.length">You don't have any polls yet. <br> Why don't you <a href="/#!/polls/create">Create One</a>?</h1>
 </section>

@@ -2,7 +2,7 @@
   <span>{{poll.created | date:'medium'}}</span> /
   <span>{{poll.owner.name}}</span>
   <h2>{{poll.name}} <a data-ng-show="global.user._id == poll.user._id" href="/#!/polls/{{poll._id}}/edit">edit</a></h2>
-  <div ng-repeat="choice in poll.choices">
+  <div ng-repeat="choice in poll.choices | orderBy:'order'">
     {{ choice.name }}
   </div>
 </section>

@@ -45,7 +45,8 @@ exports.create = function(req, res) {
         if (req.body.choices[i].message !== undefined && req.body.choices[i].message.length) {
           var choice = new Choice({
             poll: poll._id,
-            name: req.body.choices[i].message
+            name: req.body.choices[i].message,
+            order: i
           });
           choice.save(function(err, savedChoice) {
             poll.choices.push(savedChoice._id);
