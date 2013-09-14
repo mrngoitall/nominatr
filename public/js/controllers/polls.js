@@ -10,7 +10,6 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     };
 
     $scope.create = function() {
-        debugger;
         var poll = new Polls({
             name: this.name,
             choices: this.choices //$('id').attr('value') or $('id').val()
