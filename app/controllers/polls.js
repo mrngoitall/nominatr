@@ -4,6 +4,8 @@
 var mongoose = require('mongoose'),
     async = require('async'),
     Poll = mongoose.model('Poll'),
+    Choice = mongoose.model('Choice'),
+    Vote = mongoose.model('Vote'),
     _ = require('underscore');
 
 
@@ -22,9 +24,12 @@ exports.poll = function(req, res, next, id) {
 /**
  * Create a poll
  */
-exports.create = function(req, res) {            
-    var poll = new Poll(req.body);
-    poll.user = req.user;
+exports.create = function(req, res) {
+    var poll = new Poll({
+        name: req.body.name
+    });
+    poll.owner = req.user;
+    debugger;
 
     poll.save(function(err) {
         if (err) {
