@@ -29,7 +29,6 @@ exports.create = function(req, res) {
         name: req.body.name
     });
     poll.owner = req.user;
-    debugger;
 
     poll.save(function(err) {
         if (err) {

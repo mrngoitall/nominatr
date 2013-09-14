@@ -13,7 +13,8 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
         debugger;
         var poll = new Polls({
             name: this.name,
-            choices: this.choices
+            choices: this.choices //$('id').attr('value') or $('id').val()
+            //[parent.child]
         });
         poll.$save(function(response) {
             $location.path("polls/" + response._id);
