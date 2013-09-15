@@ -1,8 +1,44 @@
 <section data-ng-controller="PollsController" data-ng-init="findOne()">
-  <span>{{poll.created | date:'medium'}}</span> /
-  <span>{{poll.owner.name}}</span>
-  <h2>{{poll.name}} <a data-ng-show="global.user._id == poll.user._id" href="/#!/polls/{{poll._id}}/edit">edit</a></h2>
-  <div ng-repeat="choice in poll.choices | orderBy:'order'">
-    {{ choice.name }}
+ 
+      
+    </tr>
+  </tbody>
+</table>
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    {{poll.name}} <a data-ng-show="global.user._id == poll.user._id" href="/#!/polls/{{poll._id}}/edit">edit</a>
   </div>
+  <div class="panel-body">
+    <p>Poll created by {{poll.owner.name}} on {{poll.created | date:'medium'}}</p>
+  </div>
+
+  <table class="table">
+    <thead>
+      <th ng-repeat="choice in poll.choices | orderBy:'order'">
+        {{ choice.name }}
+      </th>
+    </thead>
+    <tbody>
+<!--             <tr>
+        <td>1</td>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Larry</td>
+        <td>the Bird</td>
+        <td>@twitter</td>
+      </tr> -->
+    </tbody>
+  </table>
+</div>
 </section>
