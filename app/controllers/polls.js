@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
   Poll = mongoose.model('Poll'),
   Choice = mongoose.model('Choice'),
   Vote = mongoose.model('Vote'),
+  Invitee = mongoose.model('Invitee'),
   _ = require('underscore');
 
 
@@ -39,6 +40,14 @@ exports.create = function(req, res) {
       });
     }
     else {
+      // Add the owner as the first invitee
+      var invitee = new Invitee({
+        user: req.user,
+        poll: poll._id
+      });
+      invitee.save();
+
+      // Add choices to the poll
       var pollChoices = [];
       console.log(req.body);
       for (var i = 0; i < req.body.choices.length; i++) {
@@ -51,6 +60,15 @@ exports.create = function(req, res) {
           choice.save(function(err, savedChoice) {
             poll.choices.push(savedChoice._id);
             poll.save();
+            var vote = new Vote({
+              poll: poll._id,
+              user: req.user,
+              choice: savedChoice._id
+            });
+            vote.save(function(err, savedVote) {
+              savedChoice.votes.push(savedVote._id);
+              savedChoice.save();
+            });
           });
         }
       }

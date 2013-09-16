@@ -7,28 +7,29 @@ var mongoose = require('mongoose'),
 
 
 /**
- * Vote Schema
+ * Invitee Schema
  */
-var VoteSchema = new Schema({
-  poll: { 
-    type: Schema.Types.ObjectId, ref: 'Poll' 
-  },
+var InviteeSchema = new Schema({
   user: { 
     type: Schema.Types.ObjectId, ref: 'User' 
   },
-  choice: { 
-    type: Schema.Types.ObjectId, ref: 'Choice' 
+  poll: { 
+    type: Schema.Types.ObjectId, ref: 'Poll' 
   },
-  vote: {
-    type: Number,
-    default: 0
+  invited: {
+    type: Date,
+    default: Date.now
+  },
+  pollEmailUid: {
+    type: String,
+    default: Math.round((new Date().valueOf() * Math.random())) + ''
   }
 });
 
 /**
  * Validations
  
-VoteSchema.path('name').validate(function(name) {
+InviteeSchema.path('name').validate(function(name) {
   return name.length;
 }, 'Name cannot be blank');
 */
@@ -36,7 +37,7 @@ VoteSchema.path('name').validate(function(name) {
 /**
  * Statics
  */
-VoteSchema.statics = {
+InviteeSchema.statics = {
   load: function(id, cb) {
     this.findOne({
       _id: id
@@ -44,4 +45,4 @@ VoteSchema.statics = {
   }
 };
 
-mongoose.model('Vote', VoteSchema);
+mongoose.model('Invitee', InviteeSchema);

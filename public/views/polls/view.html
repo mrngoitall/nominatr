@@ -23,7 +23,7 @@
       </th>
     </thead>
     <tbody>
-      <tr ng-repeat="vote in poll.votes | orderBy:'order'" data-ng-init="alert(global.user._id)">
+      <tr ng-repeat="vote in poll.votes | orderBy:'order'">
         <td ng-repeat="choice in poll.choices | orderBy:'order'">
           {{ vote.vote }}
         </td>
