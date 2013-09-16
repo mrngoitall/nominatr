@@ -13,8 +13,8 @@ angular.module('mean.polls', [])
 })
 .directive('voteRow', function() {
   return {
-    restrict: 'E',
-    template: '<tr ></tr>',
+    restrict: 'A',
+    template: '<span> {{ invitee.user.name }} </span>',
     link: function(scope, ele, attrs, ctrl) {
       //scope.$apply(scope.findVotes());
     }

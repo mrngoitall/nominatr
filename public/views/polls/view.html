@@ -23,7 +23,7 @@
       </th>
     </thead>
     <tbody>
-      <vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></vote-row>
+      <tr vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></tr>
     </tbody>
   </table>
 </div>

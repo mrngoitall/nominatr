@@ -39,8 +39,8 @@ InviteeSchema.path('name').validate(function(name) {
  */
 InviteeSchema.statics = {
   load: function(id, cb) {
-    this.findOne({
-      _id: id
+    this.find({
+      poll: id
     }).populate('user poll').exec(cb);
   }
 };

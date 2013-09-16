@@ -49,6 +49,9 @@ PollSchema.statics = {
   load: function(id, cb) {
     this.findOne({
       _id: id
+    // }).populate('owner choices invitees').exec(function(err, poll) {
+    //   console.log(poll);
+    // });
     }).populate('owner choices invitees').exec(cb);
   }
 };

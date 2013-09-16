@@ -18,7 +18,16 @@ exports.poll = function(req, res, next, id) {
     if (err) return next(err);
     if (!poll) return next(new Error('Failed to load poll ' + id));
     req.poll = poll;
-    next();
+    req.poll.invitees = [];
+    // Remove sensitive information from req.poll
+    req.poll.owner.facebook = null;
+    req.poll.owner.email = null;
+    req.poll.owner.hashed_password = null;
+    Invitee.load(poll._id, function(err, invitee) {
+      if (err) return next(err);
+      req.poll.invitees = invitee;
+      next();
+    });
   });
 };
 

@@ -54,20 +54,8 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
+      console.log(poll);
     });
-    /*Invitees.get({
-      pollId: $routeParams.pollId
-    }, function(invitee) {
-      $scope.poll.invitees = invitee;
-    });*/
   };
 
-  /*$scope.findVotes = function(userId) {
-    Votes.get({
-      pollId: $routeParams.pollId
-    }, function(votes) {
-      $scope.poll.votes = votes;
-      debugger;
-    });
-  };*/
 }]);
