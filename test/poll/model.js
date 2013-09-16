@@ -24,8 +24,7 @@ describe('<Unit Test>', function() {
 
             user.save(function(err) {                
                 poll = new Poll({
-                    title: 'Poll Title',
-                    content: 'Poll Content',
+                    name: 'Poll Title',
                     user: user
                 });
 
@@ -41,8 +40,8 @@ describe('<Unit Test>', function() {
                 });
             });
 
-            it('should be able to show an error when try to save witout title', function(done) {
-                poll.title = '';
+            it('should be able to show an error when try to save witout name', function(done) {
+                poll.name = '';
 
                 return poll.save(function(err) {
                     should.exist(err);
