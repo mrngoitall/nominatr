@@ -29,6 +29,9 @@ var PollSchema = new Schema({
   },
   choices: [{ 
     type: Schema.Types.ObjectId, ref: 'Choice' 
+  }],
+  invitees: [{
+    type: Schema.Types.ObjectId, ref: 'Invitee'
   }]
 });
 
@@ -46,7 +49,7 @@ PollSchema.statics = {
   load: function(id, cb) {
     this.findOne({
       _id: id
-    }).populate('owner choices').exec(cb);
+    }).populate('owner choices invitees').exec(cb);
   }
 };
 

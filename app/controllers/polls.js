@@ -28,7 +28,8 @@ exports.poll = function(req, res, next, id) {
 exports.create = function(req, res) {
   var poll = new Poll({
     name: req.body.name,
-    choices: []
+    choices: [],
+    invitees: []
   });
   poll.owner = req.user;
 
@@ -45,7 +46,9 @@ exports.create = function(req, res) {
         user: req.user,
         poll: poll._id
       });
-      invitee.save();
+      invitee.save(function(err) {
+        poll.invitees.push(invitee._id);
+      });
 
       // Add choices to the poll
       var pollChoices = [];

@@ -23,11 +23,7 @@
       </th>
     </thead>
     <tbody>
-      <tr ng-repeat="vote in poll.votes | orderBy:'order'">
-        <td ng-repeat="choice in poll.choices | orderBy:'order'">
-          {{ vote.vote }}
-        </td>
-      </tr>
+      <vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></vote-row>
     </tbody>
   </table>
 </div>

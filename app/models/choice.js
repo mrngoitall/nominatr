@@ -50,7 +50,7 @@ ChoiceSchema.statics = {
   load: function(id, cb) {
     this.findOne({
       _id: id
-    }).populate('poll vote').exec(cb);
+    }).populate('poll votes').exec(cb);
   }
 };
 

@@ -41,7 +41,7 @@ InviteeSchema.statics = {
   load: function(id, cb) {
     this.findOne({
       _id: id
-    }).populate('poll user choice').exec(cb);
+    }).populate('user poll').exec(cb);
   }
 };
 

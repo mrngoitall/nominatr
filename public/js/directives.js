@@ -11,4 +11,18 @@ angular.module('mean.polls', [])
     }
   };
 })
-//.directive('');
+.directive('voteRow', function() {
+  return {
+    restrict: 'E',
+    template: '<tr ></tr>',
+    link: function(scope, ele, attrs, ctrl) {
+      //scope.$apply(scope.findVotes());
+    }
+  }
+});
+
+/*
+  <td ng-repeat="choice in poll.choices | orderBy:'order'">
+    {{ vote.vote }}
+  </td>
+*/
