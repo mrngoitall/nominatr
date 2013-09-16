@@ -8,8 +8,8 @@
     </div>
     <div class="control-group">
       <label class="control-label" for="choice">Choices</label>
-      <div class="controls" ng-repeat="choice in choices">
-        <input type="text" ng-model="choice.message" name="{{ choice.id }}" placeholder="Your choice">
+      <div class="controls" data-ng-repeat="choice in choices">
+        <poll-choice></poll-choice>
       </div>
     <button ng-click="addNewChoice()" class="btn">Add</button>
     </div>

@@ -1,12 +1,13 @@
-angular.module('mean.directives', [])
+angular.module('mean.polls', [])
 .directive('pollChoice', function() {
   return {
-    template: '<input type="text" id="{{choice.id}}" ng-model="choice" placeholder="Your choice">',
+    restrict: 'E',
+    template: '<input type="text" ng-model="choice.message" name="{{ choice.id }}" placeholder="Your choice">',
     link: function(scope, ele, attrs, ctrl) {
-      scope.$watch(attrs.ngModel,
-        function(v) {
-          scope.ngModel = v.data;
-        });
+      // scope.$watch(attrs.ngModel,
+      //   function(v) {
+      //     scope.ngModel = v.poll;
+      //   });
     }
   };
 });

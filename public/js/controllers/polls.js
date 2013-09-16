@@ -57,4 +57,13 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
             $scope.poll = poll;
         });
     };
+
+    $scope.findVotes = function() {
+        Votes.get({
+            pollId: $routeParams.pollId
+        }, function(votes) {
+            $scope.poll.votes = votes;
+            debugger;
+        });
+    };
 }]);

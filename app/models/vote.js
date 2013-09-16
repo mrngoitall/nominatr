@@ -19,6 +19,10 @@ var VoteSchema = new Schema({
   choice: { 
     type: Schema.Types.ObjectId, ref: 'Choice' 
   },
+  order: {
+    type: Number,
+    default: 0
+  },
   vote: {
     type: Number,
     default: 0
