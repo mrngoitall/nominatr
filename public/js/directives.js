@@ -14,14 +14,15 @@ angular.module('mean.polls', [])
 .directive('voteRow', function() {
   return {
     restrict: 'A',
-    template: '<td>{{ invitee.user.name }}</td>' + 
-              '<td ng-repeat="choice in poll.choices | orderBy:\'order\'">' + 
-              '{{ }}' + 
+    template: '<td>{{ invitee.user.name }}</td>' +
+              '<td ng-repeat="vote in invitee.votes | orderBy:\'order\'">' +
+              '{{ invitee }}' +
               '</td>',
     link: function(scope, ele, attrs, ctrl) {
       //scope.$apply(scope.findVotes());
+
     }
-  }
+  };
 });
 
 /*

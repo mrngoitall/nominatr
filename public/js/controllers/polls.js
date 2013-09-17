@@ -54,6 +54,7 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
+      console.log(poll);
     });
   };
 

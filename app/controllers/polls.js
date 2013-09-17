@@ -28,18 +28,20 @@ exports.poll = function(req, res, next, id) {
       if (err) return next(err);
       var inviteeVotes = {};
       // Pull in all votes from this user and store it as a nested object
+      var voteLoad = function(err, thisVote) {
+        if (err) return next(err);
+        inviteeVotes[thisInvitee.user] = {};
+        for (var j = 0; j < thisVote.length; j++) {
+          inviteeVotes[thisInvitee.user][thisVote[j].choice] = thisVote[j].vote;
+        }
+        console.log('inviteeVotes',inviteeVotes);
+      };
       for (var i = 0; i < invitee.length; i++) {
         var thisInvitee = invitee[i];
-        Vote.load(invitee[i].user, poll._id, function(err, thisVote) {
-          if (err) return next(err);
-          inviteeVotes[thisInvitee.user] = {};
-          for (var j = 0; j < thisVote.length; j++) {
-            inviteeVotes[thisInvitee.user][thisVote[j].choice] = thisVote[j].vote;
-          }
-          console.log(inviteeVotes);
-        });
+        Vote.load(invitee[i].user, poll._id, voteLoad);
       }
-      req.poll.invitees = inviteeVotes;
+      req.poll.inviteeVotes = inviteeVotes;
+      console.log('req.poll.inviteeVotes',req.poll.inviteeVotes);
       next();
     });
   });
@@ -76,6 +78,19 @@ exports.create = function(req, res) {
       // Add choices to the poll
       var pollChoices = [];
       console.log(req.body);
+      var choiceSave = function(err, savedChoice) {
+        poll.choices.push(savedChoice._id);
+        poll.save();
+        var vote = new Vote({
+          poll: poll._id,
+          user: req.user,
+          choice: savedChoice._id
+        });
+        vote.save(function(err, savedVote) {
+          savedChoice.votes.push(savedVote._id);
+          savedChoice.save();
+        });
+      };
       for (var i = 0; i < req.body.choices.length; i++) {
         if (req.body.choices[i].message !== undefined && req.body.choices[i].message.length) {
           var choice = new Choice({
@@ -83,19 +98,7 @@ exports.create = function(req, res) {
             name: req.body.choices[i].message,
             order: i
           });
-          choice.save(function(err, savedChoice) {
-            poll.choices.push(savedChoice._id);
-            poll.save();
-            var vote = new Vote({
-              poll: poll._id,
-              user: req.user,
-              choice: savedChoice._id
-            });
-            vote.save(function(err, savedVote) {
-              savedChoice.votes.push(savedVote._id);
-              savedChoice.save();
-            });
-          });
+          choice.save(choiceSave);
         }
       }
       res.jsonp(poll);
