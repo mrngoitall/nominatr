@@ -16,7 +16,7 @@ angular.module('mean.polls', [])
     restrict: 'A',
     template: '<td>{{ votes[invitee.user].name }}</td>' +
               '<td ng-repeat="choice in poll.choices | orderBy:\'order\'">' +
-              '{{ votes[invitee.user][choice._id] }}' +
+              '<input type="checkbox" ng-checked="votes[invitee.user][choice._id]">' +
               '</td>',
     link: function(scope, ele, attrs, ctrl) {
       //scope.$apply(scope.findVotes());
