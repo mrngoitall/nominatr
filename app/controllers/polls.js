@@ -24,6 +24,7 @@ exports.poll = function(req, res, next, id) {
     req.poll.owner.email = null;
     req.poll.owner.hashed_password = null;
 
+    // Add invitee information to poll object
     Invitee.load(poll._id, function(err, invitee) {
       if (err) return next(err);
       var inviteeVotes = {};
@@ -35,14 +36,19 @@ exports.poll = function(req, res, next, id) {
           inviteeVotes[thisInvitee.user][thisVote[j].choice] = thisVote[j].vote;
         }
         console.log('inviteeVotes',inviteeVotes);
+        if (i === invitee.length) {
+          finish();
+        }
       };
       for (var i = 0; i < invitee.length; i++) {
         var thisInvitee = invitee[i];
         Vote.load(invitee[i].user, poll._id, voteLoad);
       }
-      req.poll.inviteeVotes = inviteeVotes;
-      console.log('req.poll.inviteeVotes',req.poll.inviteeVotes);
-      next();
+      var finish = function() {
+        req.poll.inviteeVotes = inviteeVotes;
+        console.log('req.poll.inviteeVotes',req.poll.inviteeVotes);
+        next();
+      }
     });
   });
 };
