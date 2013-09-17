@@ -14,7 +14,10 @@ angular.module('mean.polls', [])
 .directive('voteRow', function() {
   return {
     restrict: 'A',
-    template: '<span> {{ invitee.user.name }} </span>',
+    template: '<td>{{ invitee.user.name }}</td>' + 
+              '<td ng-repeat="choice in poll.choices | orderBy:\'order\'">' + 
+              '{{ }}' + 
+              '</td>',
     link: function(scope, ele, attrs, ctrl) {
       //scope.$apply(scope.findVotes());
     }
@@ -22,7 +25,7 @@ angular.module('mean.polls', [])
 });
 
 /*
-  <td ng-repeat="choice in poll.choices | orderBy:'order'">
-    {{ vote.vote }}
-  </td>
+  
+    
+  
 */

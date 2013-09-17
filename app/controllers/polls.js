@@ -23,9 +23,23 @@ exports.poll = function(req, res, next, id) {
     req.poll.owner.facebook = null;
     req.poll.owner.email = null;
     req.poll.owner.hashed_password = null;
+
     Invitee.load(poll._id, function(err, invitee) {
       if (err) return next(err);
-      req.poll.invitees = invitee;
+      var inviteeVotes = {};
+      // Pull in all votes from this user and store it as a nested object
+      for (var i = 0; i < invitee.length; i++) {
+        var thisInvitee = invitee[i];
+        Vote.load(invitee[i].user, poll._id, function(err, thisVote) {
+          if (err) return next(err);
+          inviteeVotes[thisInvitee.user] = {};
+          for (var j = 0; j < thisVote.length; j++) {
+            inviteeVotes[thisInvitee.user][thisVote[j].choice] = thisVote[j].vote;
+          }
+          console.log(inviteeVotes);
+        });
+      }
+      req.poll.invitees = inviteeVotes;
       next();
     });
   });

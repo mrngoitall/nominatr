@@ -37,10 +37,12 @@ VoteSchema.path('name').validate(function(name) {
  * Statics
  */
 VoteSchema.statics = {
-  load: function(id, cb) {
-    this.findOne({
-      _id: id
-    }).populate('poll user choice').exec(cb);
+  load: function(userId, pollId, cb) {
+    console.log('arguments are ',arguments);
+    this.find({
+      user: userId,
+      poll: pollId
+    }).exec(cb);
   }
 };
 
