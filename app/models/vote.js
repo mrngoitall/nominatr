@@ -38,7 +38,6 @@ VoteSchema.path('name').validate(function(name) {
  */
 VoteSchema.statics = {
   load: function(userId, pollId, cb) {
-    console.log('arguments are ',arguments);
     this.find({
       user: userId,
       poll: pollId

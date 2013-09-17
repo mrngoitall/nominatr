@@ -18,7 +18,6 @@ exports.poll = function(req, res, next, id) {
     if (err) return next(err);
     if (!poll) return next(new Error('Failed to load poll ' + id));
     req.poll = poll;
-    req.poll.invitees = [];
     // Remove sensitive information from req.poll
     req.poll.owner.facebook = null;
     req.poll.owner.email = null;
@@ -31,22 +30,23 @@ exports.poll = function(req, res, next, id) {
       // Pull in all votes from this user and store it as a nested object
       var voteLoad = function(err, thisVote) {
         if (err) return next(err);
-        inviteeVotes[thisInvitee.user] = {};
+        inviteeVotes[thisInvitee.user._id] = {};
+        inviteeVotes[thisInvitee.user._id].name = thisInvitee.user.name;
         for (var j = 0; j < thisVote.length; j++) {
-          inviteeVotes[thisInvitee.user][thisVote[j].choice] = thisVote[j].vote;
+          inviteeVotes[thisInvitee.user._id][thisVote[j].choice] = thisVote[j].vote;
         }
-        console.log('inviteeVotes',inviteeVotes);
         if (i === invitee.length) {
           finish();
         }
       };
       for (var i = 0; i < invitee.length; i++) {
         var thisInvitee = invitee[i];
-        Vote.load(invitee[i].user, poll._id, voteLoad);
+        console.log('thisInvitee',thisInvitee);
+        Vote.load(invitee[i].user._id, poll._id, voteLoad);
       }
       var finish = function() {
-        req.poll.inviteeVotes = inviteeVotes;
-        console.log('req.poll.inviteeVotes',req.poll.inviteeVotes);
+        // Stringifying the nested object since Mongoose prevents us from modifying the structure of req.poll
+        req.poll.voteJSON = JSON.stringify(inviteeVotes);
         next();
       }
     });
@@ -83,7 +83,6 @@ exports.create = function(req, res) {
 
       // Add choices to the poll
       var pollChoices = [];
-      console.log(req.body);
       var choiceSave = function(err, savedChoice) {
         poll.choices.push(savedChoice._id);
         poll.save();
