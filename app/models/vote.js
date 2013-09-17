@@ -20,8 +20,8 @@ var VoteSchema = new Schema({
     type: Schema.Types.ObjectId, ref: 'Choice' 
   },
   vote: {
-    type: Number,
-    default: 0
+    type: Boolean, 
+    default: false
   }
 });
 
