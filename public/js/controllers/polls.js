@@ -60,4 +60,13 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     });
   };
 
+  $scope.$watch('votes',
+    function(newValue,oldValue) {
+      if (newValue != oldValue && oldValue != undefined) {
+        console.log('change detected');
+        console.log('oldValue',oldValue);
+        console.log('newValue',newValue);
+      }
+    },true);
+
 }]);
