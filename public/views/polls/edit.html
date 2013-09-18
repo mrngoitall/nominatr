@@ -1,25 +1,23 @@
 <section data-ng-controller="PollsController" data-ng-init="findOne()">
-	<form class="form-horizontal" data-ng-submit="update()">
-		<div class="control-group">
-			<label class="control-label" for="title">Title</label>
+  <form class="form-horizontal">
+    <div class="control-group">
+      <label class="control-label" for="name">Name</label>
+      <div class="controls">
+        <input type="text" data-ng-model="poll.name" id="name" placeholder="Name" required>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="choice">Choices</label>
+      <div class="controls" data-ng-repeat="choice in poll.choices">
+        <poll-choice></poll-choice>
+      </div>
+    <button ng-click="addNewChoice()" class="btn">Add</button>
+    </div>
 
-			<div class="controls">
-				<input type="text" data-ng-model="poll.title" id="title" placeholder="Title" required>
-				</input>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label" for="content">Content</label>
-
-			<div class="controls">
-				<textarea data-ng-model="poll.content" id="content" cols="30" rows="10" placeholder="Content">
-				</textarea>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<input type="submit" class="btn">
-			</div>
-		</div>
-	</form>
+    <div class="control-group">
+      <div class="controls">
+        <input type="submit" data-ng-click="update()" class="btn">
+      </div>
+    </div>
+  </form>
 </section>
