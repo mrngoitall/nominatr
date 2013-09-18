@@ -14,12 +14,16 @@ var mongoose = require('mongoose'),
  * Find poll by id
  */
 exports.vote = function(req, res, next, id) {
-  console.log('vote id',id);
   Vote.load(id, function(err, vote) {
     if (err) return next(err);
     if (!vote) return next(new Error('Failed to load votes for ' + id));
-    req.vote = vote;
-    console.log('req.vote',req.vote);
+    // Convert the results into a nice nested object for angular to easily use in a template
+    var voteObj = {};
+    for (var i = 0; i < vote.length; i++) {
+      voteObj[vote[i].user] = voteObj[vote[i].user] || {};
+      voteObj[vote[i].user][vote[i].choice] = vote[i].vote;
+    }
+    req.voteObj = voteObj;
     next();
   });
 };
@@ -119,5 +123,5 @@ exports.destroy = function(req, res) {
  * Show an vote
  */
 exports.show = function(req, res) {
-  res.jsonp(req.vote);
+  res.jsonp(req.voteObj);
 };
