@@ -22,6 +22,7 @@ var InviteeSchema = new Schema({
   },
   pollEmailUid: {
     type: String,
+    // Todo: do collision avoidance
     default: Math.round((new Date().valueOf() * Math.random())) + ''
   }
 });

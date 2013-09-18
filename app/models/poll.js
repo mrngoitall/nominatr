@@ -14,6 +14,10 @@ var PollSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  updated: {
+    type: Date,
+    default: Date.now
+  },
   name: {
     type: String,
     default: '',

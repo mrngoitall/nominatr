@@ -13,42 +13,15 @@ var mongoose = require('mongoose'),
 /**
  * Find poll by id
  */
-exports.poll = function(req, res, next, id) {
-  Poll.load(id, function(err, poll) {
+exports.vote = function(req, res, next, id) {
+  console.log(arguments);
+  Vote.load(id, function(err, vote) {
     if (err) return next(err);
-    if (!poll) return next(new Error('Failed to load poll ' + id));
-    req.poll = poll;
-    // Remove sensitive information from req.poll
-    req.poll.owner.facebook = null;
-    req.poll.owner.email = null;
-    req.poll.owner.hashed_password = null;
-
-    // Add invitee information to poll object
-    Invitee.load(poll._id, function(err, invitee) {
-      if (err) return next(err);
-      var inviteeVotes = {};
-      // Pull in all votes from this user and store it as a nested object
-      var voteLoad = function(err, thisVote) {
-        if (err) return next(err);
-        inviteeVotes[thisInvitee.user._id] = {};
-        inviteeVotes[thisInvitee.user._id].name = thisInvitee.user.name;
-        for (var j = 0; j < thisVote.length; j++) {
-          inviteeVotes[thisInvitee.user._id][thisVote[j].choice] = thisVote[j].vote;
-        }
-        if (i === invitee.length) {
-          finish();
-        }
-      };
-      for (var i = 0; i < invitee.length; i++) {
-        var thisInvitee = invitee[i];
-        Vote.load(invitee[i].user._id, poll._id, voteLoad);
-      }
-      var finish = function() {
-        // Stringifying the nested object since Mongoose prevents us from modifying the structure of req.poll
-        req.poll.voteJSON = JSON.stringify(inviteeVotes);
-        next();
-      }
-    });
+    if (!vote) return next(new Error('Failed to load votes for ' + id));
+    req.vote = vote;
+    console.log('vote',vote);
+    console.log('req.vote',req.vote);
+    next();
   });
 };
 
@@ -114,7 +87,7 @@ exports.create = function(req, res) {
  * Update a poll
  */
 exports.update = function(req, res) {
-  // On the front end, if the user changes a choice,
+  // On the front end, if the user changes a choice, 
   // it should delete the old choice, and add a new choice
   console.log('req.body',req.body);
   var poll = req.poll;
@@ -127,7 +100,7 @@ exports.update = function(req, res) {
 };
 
 /**
- * Delete an poll
+ * Delete an vote
  */
 exports.destroy = function(req, res) {
   var poll = req.poll;
@@ -144,10 +117,10 @@ exports.destroy = function(req, res) {
 };
 
 /**
- * Show an poll
+ * Show an vote
  */
 exports.show = function(req, res) {
-  res.jsonp(req.poll);
+  res.jsonp(req.vote);
 };
 
 /**

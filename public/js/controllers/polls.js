@@ -1,4 +1,4 @@
-angular.module('mean.polls').controller('PollsController', ['$scope', '$routeParams', '$location', 'Global', 'Polls', function ($scope, $routeParams, $location, Global, Polls) {
+angular.module('mean.polls').controller('PollsController', ['$scope', '$routeParams', '$location', 'Global', 'Polls', 'Votes', function ($scope, $routeParams, $location, Global, Polls, Votes) {
   $scope.global = Global;
 
   $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
@@ -33,15 +33,15 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
 
   $scope.update = function() {
     var poll = $scope.poll;
-    if (!poll.updated) {
-      poll.updated = [];
-    }
-    poll.updated.push(new Date().getTime());
-
     poll.$update(function() {
       $location.path('polls/' + poll._id);
     });
   };
+
+  $scope.updateVotes = function() {
+    var votes = $scope.votes;
+
+  }
 
   $scope.find = function(query) {
     Polls.query(query, function(polls) {
@@ -60,12 +60,15 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     });
   };
 
+  // Detect when the user makes a change
   $scope.$watch('votes',
     function(newValue,oldValue) {
       if (newValue != oldValue && oldValue != undefined) {
         console.log('change detected');
         console.log('oldValue',oldValue);
         console.log('newValue',newValue);
+        // Send an update to the server
+
       }
     },true);
 
