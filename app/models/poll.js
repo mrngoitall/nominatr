@@ -36,12 +36,7 @@ var PollSchema = new Schema({
   }],
   invitees: [{
     type: Schema.Types.ObjectId, ref: 'Invitee'
-  }],
-  voteJSON: {
-    type: String,
-    default: '',
-    trim: true
-  }
+  }]
 });
 
 /**
