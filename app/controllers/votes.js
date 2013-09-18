@@ -20,8 +20,9 @@ exports.vote = function(req, res, next, id) {
     // Convert the results into a nice nested object for angular to easily use in a template
     var voteObj = {};
     for (var i = 0; i < vote.length; i++) {
-      voteObj[vote[i].user] = voteObj[vote[i].user] || {};
-      voteObj[vote[i].user][vote[i].choice] = vote[i].vote;
+      voteObj[vote[i].user._id] = voteObj[vote[i].user._id] || {};
+      voteObj[vote[i].user._id].name = vote[i].user.name;
+      voteObj[vote[i].user._id][vote[i].choice] = vote[i].vote;
     }
     req.voteObj = voteObj;
     next();

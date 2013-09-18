@@ -40,7 +40,7 @@ VoteSchema.statics = {
   load: function(pollId, cb) {
     this.find({
       poll: pollId
-    }).exec(cb);
+    }).populate('user').exec(cb);
   }
 };
 

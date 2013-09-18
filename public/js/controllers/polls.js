@@ -41,7 +41,7 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
   $scope.updateVotes = function() {
     var votes = $scope.votes;
 
-  }
+  };
 
   $scope.find = function(query) {
     Polls.query(query, function(polls) {
@@ -54,9 +54,13 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
-      $scope.votes = angular.fromJson(poll.voteJSON);
       console.log(poll);
-      console.log($scope.votes);
+    });
+    Votes.get({
+      pollId: $routeParams.pollId
+    }, function(votes) {
+      $scope.votes = votes;
+      console.log(votes);
     });
   };
 
