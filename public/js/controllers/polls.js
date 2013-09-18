@@ -43,7 +43,6 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     votes.$update({
       pollId: $routeParams.pollId
     }, function() {
-      $location.path('votes/' + $scope.poll._id);
     });
   };
 

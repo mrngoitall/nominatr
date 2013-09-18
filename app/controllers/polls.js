@@ -121,7 +121,6 @@ exports.update = function(req, res) {
   var poll = req.poll;
   console.log('Updating poll',poll);
   poll = _.extend(poll, req.body);
-
   poll.save(function(err) {
     res.jsonp(poll);
   });

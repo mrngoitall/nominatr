@@ -24,6 +24,9 @@ exports.vote = function(req, res, next, id) {
       voteObj[vote[i].user._id].name = vote[i].user.name;
       voteObj[vote[i].user._id][vote[i].choice] = vote[i].vote;
     }
+    // Saving vote object for later updates
+    req.vote = vote;
+    // Saving nested vote object to send
     req.voteObj = voteObj;
     next();
   });
@@ -88,19 +91,20 @@ exports.create = function(req, res) {
 };
 
 /**
- * Update a poll
+ * Update a vote
  */
 exports.update = function(req, res) {
-  // On the front end, if the user changes a choice, 
-  // it should delete the old choice, and add a new choice
-  console.log('req.body',req.body);
-  var poll = req.poll;
-  console.log('Updating poll',poll);
-  poll = _.extend(poll, req.body);
-
-  poll.save(function(err) {
-    res.jsonp(poll);
-  });
+  var vote = req.vote;
+  for (var i = 0; i < vote.length; i++) {
+    var currentVote = req.body[vote[i].user._id][vote[i].choice];
+    if (vote[i].vote !== currentVote) {
+      vote[i].vote = currentVote;
+      vote[i].save();
+    }
+    if (i === vote.length-1) {
+      res.jsonp(req.body);
+    }
+  }
 };
 
 /**
