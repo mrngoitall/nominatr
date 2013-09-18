@@ -25,7 +25,9 @@ exports.user = {
  */
 exports.poll = {
     hasAuthorization: function(req, res, next) {
-        if (req.poll.user.id != req.user.id) {
+        var owner = JSON.stringify(req.poll.owner._id);
+        var requester = JSON.stringify(req.user._id);
+        if (owner !== requester) {
             return res.send(401, 'User is not authorized');
         }
         next();
