@@ -37,9 +37,8 @@ VoteSchema.path('name').validate(function(name) {
  * Statics
  */
 VoteSchema.statics = {
-  load: function(userId, pollId, cb) {
+  load: function(pollId, cb) {
     this.find({
-      user: userId,
       poll: pollId
     }).exec(cb);
   }

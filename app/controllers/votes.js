@@ -14,12 +14,11 @@ var mongoose = require('mongoose'),
  * Find poll by id
  */
 exports.vote = function(req, res, next, id) {
-  console.log(arguments);
+  console.log('vote id',id);
   Vote.load(id, function(err, vote) {
     if (err) return next(err);
     if (!vote) return next(new Error('Failed to load votes for ' + id));
     req.vote = vote;
-    console.log('vote',vote);
     console.log('req.vote',req.vote);
     next();
   });
@@ -29,7 +28,7 @@ exports.vote = function(req, res, next, id) {
  * Create a poll
  */
 exports.create = function(req, res) {
-  var poll = new Poll({
+/*  var poll = new Poll({
     name: req.body.name,
     choices: [],
     invitees: []
@@ -80,7 +79,7 @@ exports.create = function(req, res) {
       }
       res.jsonp(poll);
     }
-  });
+  });*/
 };
 
 /**
@@ -121,19 +120,4 @@ exports.destroy = function(req, res) {
  */
 exports.show = function(req, res) {
   res.jsonp(req.vote);
-};
-
-/**
- * List of Polls
- */
-exports.all = function(req, res) {
-  Poll.find().sort('-created').populate('user').exec(function(err, polls) {
-    if (err) {
-      res.render('error', {
-        status: 500
-      });
-    } else {
-      res.jsonp(polls);
-    }
-  });
 };

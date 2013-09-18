@@ -75,15 +75,12 @@ module.exports = function(app, passport, auth) {
 
     //Vote Routes
     var votes = require('../app/controllers/votes');
-    //app.get('/votes', votes.all);
-    //app.post('/votes', auth.requiresLogin, votes.create);
+    app.post('/votes/:pollId', auth.requiresLogin, votes.create);
     app.get('/votes/:pollId', votes.show);
     app.put('/votes/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, votes.update);
     app.del('/votes/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, votes.destroy);
-
     //Finish with setting up the pollId param
     app.param('pollId', votes.vote);
-
     //Home route
     var index = require('../app/controllers/index');
     app.get('/', index.render);

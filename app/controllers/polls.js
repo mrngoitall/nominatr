@@ -24,7 +24,7 @@ exports.poll = function(req, res, next, id) {
     req.poll.owner.hashed_password = null;
 
     // Add invitee information to poll object
-    Invitee.load(poll._id, function(err, invitee) {
+    /*Invitee.load(poll._id, function(err, invitee) {
       if (err) return next(err);
       var inviteeVotes = {};
       // Pull in all votes from this user and store it as a nested object
@@ -46,9 +46,9 @@ exports.poll = function(req, res, next, id) {
       var finish = function() {
         // Stringifying the nested object since Mongoose prevents us from modifying the structure of req.poll
         req.poll.voteJSON = JSON.stringify(inviteeVotes);
-        next();
       }
-    });
+    });*/
+    next();
   });
 };
 
