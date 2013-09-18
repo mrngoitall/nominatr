@@ -78,6 +78,7 @@ exports.create = function(req, res) {
       });
       invitee.save(function(err) {
         poll.invitees.push(invitee._id);
+        poll.save();
       });
 
       // Add choices to the poll
@@ -96,10 +97,10 @@ exports.create = function(req, res) {
         });
       };
       for (var i = 0; i < req.body.choices.length; i++) {
-        if (req.body.choices[i].message !== undefined && req.body.choices[i].message.length) {
+        if (req.body.choices[i].name !== undefined && req.body.choices[i].name.length) {
           var choice = new Choice({
             poll: poll._id,
-            name: req.body.choices[i].message,
+            name: req.body.choices[i].name,
             order: i
           });
           choice.save(choiceSave);
