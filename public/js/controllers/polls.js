@@ -40,7 +40,9 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
 
   $scope.updateVotes = function() {
     var votes = $scope.votes;
-
+    votes.$update(function() {
+      $location.path('votes/' + poll._id);
+    });
   };
 
   $scope.find = function(query) {
@@ -72,7 +74,7 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
         console.log('oldValue',oldValue);
         console.log('newValue',newValue);
         // Send an update to the server
-
+        $scope.updateVotes();
       }
     },true);
 
