@@ -13,10 +13,8 @@ angular.module('mean.polls', [])
     template: '<td>{{ votes[invitee.user].name }}</td>' +
               '<td ng-repeat="choice in poll.choices | orderBy:\'order\'">' +
               '<span>' +
-              // 'invitee user: {{ invitee.user }}' +
-              // 'global user: {{ global.user._id }}' +
-              '<vote-checkbox></vote-checkbox>' +
-              '<vote-checkbox-display></vote-checkbox-display>' +
+              '<vote-checkbox data-ng-show="global.user._id == invitee.user"></vote-checkbox>' +
+              '<vote-checkbox-display data-ng-show="global.user._id != invitee.user"></vote-checkbox-display>' +
               '</td>',
     link: function(scope, ele, attrs, ctrl) {
     }
@@ -25,22 +23,15 @@ angular.module('mean.polls', [])
 .directive('voteCheckbox', function() {
   return {
     restrict: 'E',
-    template: '<input data-ng-show="global.user._id == invitee.user" type="checkbox" ng-model="votes[invitee.user][choice._id]">',
+    template: '<input type="checkbox" ng-model="votes[invitee.user][choice._id]">',
     link: function(scope, ele, attrs, ctrl) {
-      console.log(scope);
-      console.log('attrs',attrs);
-      if (scope.$eval(attrs.voteCheckbox)) {
-        console.log('passed if');
-        element.append('<div>This is a test</div>');
-        //global.user._id
-      }
     }
   };
 })
 .directive('voteCheckboxDisplay', function() {
   return {
     restrict: 'E',
-    template: '<span ng-show="votes[invitee.user][choice._id] && global.user._id != invitee.user">Yes!</span>',
+    template: '<span data-ng-show="votes[invitee.user][choice._id]">Yes!</span>',
     link: function(scope, ele, attrs, ctrl) {
     }
   };
