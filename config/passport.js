@@ -82,9 +82,9 @@ module.exports = function(passport) {
 
     //Use facebook strategy
     passport.use(new FacebookStrategy({
-            clientID: config.facebook.clientID,
-            clientSecret: process.env.FB_CLIENT_ID || config.facebook.clientSecret,
-            callbackURL: process.env.FB_CLIENT_SECRET || config.facebook.callbackURL
+            clientID: process.env.FB_CLIENT_ID || config.facebook.clientID,
+            clientSecret: process.env.FB_CLIENT_SECRET || config.facebook.clientSecret,
+            callbackURL: config.facebook.callbackURL
         },
         function(accessToken, refreshToken, profile, done) {
             User.findOne({
@@ -94,6 +94,7 @@ module.exports = function(passport) {
                     return done(err);
                 }
                 if (!user) {
+                    console.log(profile);
                     user = new User({
                         name: profile.displayName,
                         email: profile.emails[0].value,

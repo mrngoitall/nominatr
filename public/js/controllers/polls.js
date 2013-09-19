@@ -9,6 +9,13 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     $scope.choices.push({'id':'choice'+newItemNo});
   };
 
+  if ($scope.global.user && $scope.global.user._id) {
+    $scope.currentUser = $scope.global.user._id;
+  } else {
+    $scope.currentUser = 'guest';
+  }
+  console.log($scope.currentUser);
+
   $scope.create = function() {
     var poll = new Polls({
       name: this.name,
@@ -57,13 +64,11 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
-      console.log(poll);
     });
     Votes.get({
       pollId: $routeParams.pollId
     }, function(votes) {
       $scope.votes = votes;
-      console.log(votes);
     });
   };
 

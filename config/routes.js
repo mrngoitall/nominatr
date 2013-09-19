@@ -20,7 +20,7 @@ module.exports = function(app, passport, auth) {
 
     //Setting the facebook oauth routes
     app.get('/auth/facebook', passport.authenticate('facebook', {
-        scope: ['email', 'user_about_me'],
+        scope: ['email'], //,'user_about_me'
         failureRedirect: '/signin'
     }), users.signin);
 
@@ -75,7 +75,6 @@ module.exports = function(app, passport, auth) {
 
     //Vote Routes
     var votes = require('../app/controllers/votes');
-    app.post('/votes/:pollId', auth.requiresLogin, votes.create);
     app.get('/votes/:pollId', votes.show);
     app.put('/votes/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, votes.update);
     app.del('/votes/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, votes.destroy);
