@@ -70,6 +70,10 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       } else {
         $scope.currentUser = 'guest';
       }
+      $scope.guestVote = {};
+      for (var i = 0; i < poll.choices.length; i++ ) {
+        $scope.guestVote[poll.choices[i]._id] = 0;
+      }
     });
     Votes.get({
       pollId: $routeParams.pollId
@@ -82,9 +86,6 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
   $scope.$watch('votes',
     function(newValue,oldValue) {
       if (newValue != oldValue && oldValue != undefined) {
-        console.log('change detected');
-        console.log('oldValue',oldValue);
-        console.log('newValue',newValue);
         // Send an update to the server
         $scope.updateVotes();
       }

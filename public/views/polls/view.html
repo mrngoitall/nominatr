@@ -24,6 +24,10 @@
     </thead>
     <tbody>
       <tr vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></tr>
+      <tr><td><input type="text" name="guest" placeholder="Your name"></td>
+        <td ng-repeat="choice in poll.choices | orderBy:'order'">
+        <vote-checkbox-guest></vote-checkbox-guest>
+      </td>
     </tbody>
   </table>
 </div>

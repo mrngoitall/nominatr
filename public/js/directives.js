@@ -28,6 +28,14 @@ angular.module('mean.polls', [])
     }
   };
 })
+.directive('voteCheckboxGuest', function() {
+  return {
+    restrict: 'E',
+    template: '<input type="checkbox" ng-model="guestVotes[choice._id]">',
+    link: function(scope, ele, attrs, ctrl) {
+    }
+  };
+})
 .directive('voteCheckboxDisplay', function() {
   return {
     restrict: 'E',
