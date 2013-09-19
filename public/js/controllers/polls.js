@@ -10,11 +10,10 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
   };
 
   if ($scope.global.user && $scope.global.user._id) {
-    $scope.currentUser = $scope.global.user._id;
+    $scope.currentUser = 'user';
   } else {
     $scope.currentUser = 'guest';
   }
-  console.log($scope.currentUser);
 
   $scope.create = function() {
     var poll = new Polls({
@@ -64,6 +63,13 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
+      if ($scope.poll.owner._id == $scope.global.user._id) {
+        $scope.currentUser = 'owner';
+      } else if ($scope.global.user) {
+        $scope.currentUser = 'user';
+      } else {
+        $scope.currentUser = 'guest';
+      }
     });
     Votes.get({
       pollId: $routeParams.pollId
