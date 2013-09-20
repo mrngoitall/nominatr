@@ -8,6 +8,11 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     $scope.choices.push({'id':'choice'+newItemNo});
   };
 
+  $scope.addNewChoiceToExisting = function() {
+    var newItemNo = $scope.poll.choices.length+1;
+    $scope.poll.choices.push({'id':'choice'+newItemNo});
+  };
+
   // if ($scope.global.user && $scope.global.user._id) {
   //   $scope.currentUser = 'user';
   // } else {
