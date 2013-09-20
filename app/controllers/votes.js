@@ -37,6 +37,29 @@ exports.vote = function(req, res, next, id) {
  * Create a (guest) vote
  */
 exports.create = function(req, res) {
+  var saveGuestVotes = function(userId) {
+    // Now we can actually record their vote!
+    var invitee = new Invitee({
+      user: userId,
+      poll: req.poll._id
+    });
+    invitee.save(function(err) {
+      req.poll.invitees.push(invitee._id);
+      req.poll.save();
+    });
+    for (var choice in req.body.guest) {
+      if (choice !== 'name') {
+        var vote = new Vote({
+          poll: req.poll._id,
+          user: userId,
+          choice: choice,
+          vote: req.body.guest[choice]
+        });
+        vote.save();
+      }
+    }
+    res.redirect(req.originalUrl);
+  }
   if (req.user === undefined) {
     // Create a new user too,
     // so we can log them in and give them a cookie
@@ -54,30 +77,10 @@ exports.create = function(req, res) {
           console.log(err);
         }
       });
-      // Now we can actually record their vote!
-      var invitee = new Invitee({
-        user: savedUser._id,
-        poll: req.poll._id
-      });
-      invitee.save(function(err) {
-        req.poll.invitees.push(invitee._id);
-        req.poll.save();
-      });
-      for (var choice in req.body.guest) {
-        if (choice !== 'name') {
-          var vote = new Vote({
-            poll: req.poll._id,
-            user: savedUser._id,
-            choice: choice,
-            vote: req.body.guest[choice]
-          });
-          vote.save();
-        }
-      }
-      res.redirect(req.originalUrl);
+      saveGuestVotes(savedUser._id);
     });
   } else {
-    res.redirect(req.originalUrl);
+    saveGuestVotes(req.user._id);
   }
 };
 
@@ -89,6 +92,9 @@ exports.update = function(req, res) {
   for (var i = 0; i < vote.length; i++) {
     var currentVote = req.body[vote[i].user._id][vote[i].choice];
     if (vote[i].vote !== currentVote) {
+      if (req.user._id !== vote[i].user._id) {
+        console.log('Unauthorized user');
+      }
       vote[i].vote = currentVote;
       vote[i].save();
     }

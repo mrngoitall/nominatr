@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       <tr vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></tr>
-      <tr data-ng-show="!isParticipant"><td><input type="text" name="guest" ng-model="guestVotes.name" placeholder="Your name"></td>
+      <tr data-ng-show="!isParticipant"><td><input type="text" name="guest" ng-model="guestVotes.name" data-ng-show="global.user._id == null" placeholder="Your name">{{ global.user.name }}</td>
         <td ng-repeat="choice in poll.choices | orderBy:'order'">
         <vote-checkbox-guest></vote-checkbox-guest>
       </td>

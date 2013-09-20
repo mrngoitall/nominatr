@@ -82,11 +82,13 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       // } else {
       //   $scope.currentUser = 'guest';
       // }
-      $scope.guestVotes = new Votes();
-      for (var i = 0; i < poll.choices.length; i++ ) {
-        $scope.guestVotes[poll.choices[i]._id] = false;
+      if ($scope.guestVotes == undefined) {
+        $scope.guestVotes = new Votes();
+        for (var i = 0; i < poll.choices.length; i++ ) {
+          $scope.guestVotes[poll.choices[i]._id] = false;
+        }
+        console.log($scope.guestVotes);
       }
-    console.log($scope.guestVotes);
     });
     Votes.get({
       pollId: $routeParams.pollId
@@ -107,6 +109,9 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
         // Send an update to the server
         $scope.updateVotes();
       }
-    },true);
+    },
+  true);
+
+  setInterval($scope.findOne,2000);
 
 }]);
