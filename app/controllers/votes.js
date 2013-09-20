@@ -76,6 +76,8 @@ exports.create = function(req, res) {
       }
       res.redirect(req.originalUrl);
     });
+  } else {
+    res.redirect(req.originalUrl);
   }
 };
 

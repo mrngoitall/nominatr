@@ -77,8 +77,8 @@ module.exports = function(app, passport, auth) {
     var votes = require('../app/controllers/votes');
     app.get('/votes/:pollId', votes.show);
     app.post('/votes/:pollId', votes.create);
-    app.put('/votes/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, votes.update);
-    app.del('/votes/:pollId', auth.requiresLogin, auth.poll.hasAuthorization, votes.destroy);
+    app.put('/votes/:pollId', auth.requiresLogin, votes.update);
+    app.del('/votes/:pollId', auth.requiresLogin, votes.destroy);
 
     //Finish with setting up the pollId param
     app.param('pollId', votes.vote);
