@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
   Poll = mongoose.model('Poll'),
   Choice = mongoose.model('Choice'),
   Vote = mongoose.model('Vote'),
+  User = mongoose.model('User'),
   Invitee = mongoose.model('Invitee'),
   _ = require('underscore');
 
@@ -33,61 +34,49 @@ exports.vote = function(req, res, next, id) {
 };
 
 /**
- * Create a poll
+ * Create a (guest) vote
  */
 exports.create = function(req, res) {
-/*  var poll = new Poll({
-    name: req.body.name,
-    choices: [],
-    invitees: []
-  });
-  poll.owner = req.user;
-
-  poll.save(function(err) {
-    if (err) {
-      return res.send('users/signup', {
-        errors: err.errors,
-        poll: poll
+  if (req.user === undefined) {
+    // Create a new user too,
+    // so we can log them in and give them a cookie
+    var user = new User({
+      name: req.body.guest.name,
+      password: 'somepassword',
+      provider: 'local'
+    });
+    user.save(function(err,savedUser) {
+      if (err) {
+        console.log(err);
+      }
+      req.logIn(savedUser, function(err) {
+        if (err) {
+          console.log(err);
+        }
       });
-    }
-    else {
-      // Add the owner as the first invitee
+      // Now we can actually record their vote!
       var invitee = new Invitee({
-        user: req.user,
-        poll: poll._id
+        user: savedUser._id,
+        poll: req.poll._id
       });
       invitee.save(function(err) {
-        poll.invitees.push(invitee._id);
+        req.poll.invitees.push(invitee._id);
+        req.poll.save();
       });
-
-      // Add choices to the poll
-      var pollChoices = [];
-      var choiceSave = function(err, savedChoice) {
-        poll.choices.push(savedChoice._id);
-        poll.save();
-        var vote = new Vote({
-          poll: poll._id,
-          user: req.user,
-          choice: savedChoice._id
-        });
-        vote.save(function(err, savedVote) {
-          savedChoice.votes.push(savedVote._id);
-          savedChoice.save();
-        });
-      };
-      for (var i = 0; i < req.body.choices.length; i++) {
-        if (req.body.choices[i].message !== undefined && req.body.choices[i].message.length) {
-          var choice = new Choice({
-            poll: poll._id,
-            name: req.body.choices[i].message,
-            order: i
+      for (var choice in req.body.guest) {
+        if (choice !== 'name') {
+          var vote = new Vote({
+            poll: req.poll._id,
+            user: savedUser._id,
+            choice: choice,
+            vote: req.body.guest[choice]
           });
-          choice.save(choiceSave);
+          vote.save();
         }
       }
-      res.jsonp(poll);
-    }
-  });*/
+      res.redirect(req.originalUrl);
+    });
+  }
 };
 
 /**

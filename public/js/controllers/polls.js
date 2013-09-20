@@ -43,6 +43,18 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     });
   };
 
+  $scope.createGuestVotes = function() {
+    console.log($scope.guestVotes);
+    var vote = new Votes({
+      'guest': $scope.guestVotes
+    });
+    vote.$save({
+      pollId: $routeParams.pollId
+    },function(response) {
+      $scope.findOne();
+    });
+  };
+
   $scope.updateVotes = function() {
     var votes = $scope.votes;
     votes.$update({
@@ -69,9 +81,9 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       // } else {
       //   $scope.currentUser = 'guest';
       // }
-      $scope.guestVotes = {};
+      $scope.guestVotes = new Votes();
       for (var i = 0; i < poll.choices.length; i++ ) {
-        $scope.guestVotes[poll.choices[i]._id] = 0;
+        $scope.guestVotes[poll.choices[i]._id] = false;
       }
     console.log($scope.guestVotes);
     });
@@ -84,7 +96,6 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       } else {
         $scope.isParticipant = false;
       }
-      console.log($scope.isParticipant);
     });
   };
 

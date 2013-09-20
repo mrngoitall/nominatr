@@ -34,6 +34,10 @@ var PollSchema = new Schema({
   choices: [{ 
     type: Schema.Types.ObjectId, ref: 'Choice' 
   }],
+  privacy: {
+    type: String,
+    default: 'Public'
+  },
   invitees: [{
     type: Schema.Types.ObjectId, ref: 'Invitee'
   }]

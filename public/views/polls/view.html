@@ -24,11 +24,12 @@
     </thead>
     <tbody>
       <tr vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></tr>
-      <tr data-ng-show="!isParticipant"><td><input type="text" name="guest" placeholder="Your name"></td>
+      <tr data-ng-show="!isParticipant"><td><input type="text" name="guest" ng-model="guestVotes.name" placeholder="Your name"></td>
         <td ng-repeat="choice in poll.choices | orderBy:'order'">
         <vote-checkbox-guest></vote-checkbox-guest>
       </td>
     </tbody>
   </table>
+  <button data-ng-show="!isParticipant" ng-click="createGuestVotes()" class="btn">Vote</button>
 </div>
 </section>
