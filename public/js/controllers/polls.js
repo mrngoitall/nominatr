@@ -5,15 +5,14 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
 
   $scope.addNewChoice = function() {
     var newItemNo = $scope.choices.length+1;
-
     $scope.choices.push({'id':'choice'+newItemNo});
   };
 
-  if ($scope.global.user && $scope.global.user._id) {
-    $scope.currentUser = 'user';
-  } else {
-    $scope.currentUser = 'guest';
-  }
+  // if ($scope.global.user && $scope.global.user._id) {
+  //   $scope.currentUser = 'user';
+  // } else {
+  //   $scope.currentUser = 'guest';
+  // }
 
   $scope.create = function() {
     var poll = new Polls({
@@ -63,22 +62,29 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
-      if ($scope.poll.owner._id == $scope.global.user._id) {
-        $scope.currentUser = 'owner';
-      } else if ($scope.global.user) {
-        $scope.currentUser = 'user';
-      } else {
-        $scope.currentUser = 'guest';
-      }
-      $scope.guestVote = {};
+      // if ($scope.poll.owner._id == $scope.global.user._id) {
+      //   $scope.currentUser = 'owner';
+      // } else if ($scope.global.user) {
+      //   $scope.currentUser = 'user';
+      // } else {
+      //   $scope.currentUser = 'guest';
+      // }
+      $scope.guestVotes = {};
       for (var i = 0; i < poll.choices.length; i++ ) {
-        $scope.guestVote[poll.choices[i]._id] = 0;
+        $scope.guestVotes[poll.choices[i]._id] = 0;
       }
+    console.log($scope.guestVotes);
     });
     Votes.get({
       pollId: $routeParams.pollId
     }, function(votes) {
       $scope.votes = votes;
+      if ($scope.global.user && $scope.global.user._id in votes) {
+        $scope.isParticipant = true;
+      } else {
+        $scope.isParticipant = false;
+      }
+      console.log($scope.isParticipant);
     });
   };
 
