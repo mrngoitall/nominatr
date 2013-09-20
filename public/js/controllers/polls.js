@@ -110,9 +110,12 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
   // Detect when the user makes a change
   $scope.$watch('votes',
     function(newValue,oldValue) {
-      if (newValue != oldValue && oldValue != undefined) {
-        // Send an update to the server
-        $scope.updateVotes();
+      if (newValue != undefined && oldValue != undefined) {
+        // Comparing stringified versions of the object so we can make a comparison based on values
+        if (JSON.stringify(newValue[$scope.global.user._id]) != JSON.stringify(oldValue[$scope.global.user._id])) {
+          // Send an update to the server
+          $scope.updateVotes();
+        }
       }
     },
   true);
