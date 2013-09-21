@@ -1,8 +1,10 @@
-angular.module('mean.polls').controller('PollsController', ['$scope', '$routeParams', '$location', 'Global', 'Polls', 'Votes', function ($scope, $routeParams, $location, Global, Polls, Votes) {
+angular.module('mean.polls').controller('PollsController', ['$scope', '$routeParams', '$location', '$timeout', 'Global', 'Polls', 'Votes', function ($scope, $routeParams, $location, $timeout, Global, Polls, Votes) {
   $scope.global = Global;
 
   $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
 
+  $scope.global.shouldRefresh = false;
+  
   $scope.addNewChoice = function() {
     var newItemNo = $scope.choices.length+1;
     $scope.choices.push({'id':'choice'+newItemNo});
@@ -12,12 +14,6 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
     var newItemNo = $scope.poll.choices.length+1;
     $scope.poll.choices.push({'id':'choice'+newItemNo});
   };
-
-  // if ($scope.global.user && $scope.global.user._id) {
-  //   $scope.currentUser = 'user';
-  // } else {
-  //   $scope.currentUser = 'guest';
-  // }
 
   $scope.create = function() {
     var poll = new Polls({
@@ -80,19 +76,11 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
-      // if ($scope.poll.owner._id == $scope.global.user._id) {
-      //   $scope.currentUser = 'owner';
-      // } else if ($scope.global.user) {
-      //   $scope.currentUser = 'user';
-      // } else {
-      //   $scope.currentUser = 'guest';
-      // }
       if ($scope.guestVotes == undefined) {
         $scope.guestVotes = new Votes();
         for (var i = 0; i < poll.choices.length; i++ ) {
           $scope.guestVotes[poll.choices[i]._id] = false;
         }
-        console.log($scope.guestVotes);
       }
     });
     Votes.get({
@@ -105,6 +93,22 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
         $scope.isParticipant = false;
       }
     });
+    $timeout.cancel($scope.timeout);
+    if ($scope.global.shouldRefresh) {
+      $scope.timeout = $timeout(function() {
+        $scope.findOne();
+      }, 2000);
+    }
+  };
+
+  $scope.findOneAndRefresh = function() {
+    $scope.global.shouldRefresh = true;
+    $scope.findOne();
+  };
+
+  $scope.findOneAndStopRefresh = function() {
+    $scope.global.shouldRefresh = false;
+    $scope.findOne();
   };
 
   // Detect when the user makes a change
@@ -119,7 +123,5 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       }
     },
   true);
-
-  setInterval($scope.findOne,2000);
 
 }]);
