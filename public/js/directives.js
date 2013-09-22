@@ -11,7 +11,7 @@ angular.module('mean.polls', [])
   return {
     restrict: 'A',
     template: '<td>{{ votes[invitee.user].name }}</td>' +
-              '<td ng-repeat="choice in poll.choices | orderBy:\'order\'">' +
+              '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'">' +
               '<span>' +
               '<vote-checkbox data-ng-show="global.user._id == invitee.user"></vote-checkbox>' +
               '<vote-checkbox-display data-ng-show="global.user._id != invitee.user"></vote-checkbox-display>' +

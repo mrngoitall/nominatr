@@ -18,14 +18,14 @@
       <th>
         Guest name
       </th>
-      <th ng-repeat="choice in poll.choices | orderBy:'order'">
+      <th ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'">
         {{ choice.name }}
       </th>
     </thead>
     <tbody>
       <tr vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></tr>
       <tr data-ng-show="!isParticipant"><td><input type="text" name="guest" ng-model="guestVotes.name" data-ng-show="global.user._id == null" placeholder="Your name">{{ global.user.name }}</td>
-        <td ng-repeat="choice in poll.choices | orderBy:'order'">
+        <td ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'">
         <vote-checkbox-guest></vote-checkbox-guest>
       </td>
     </tbody>

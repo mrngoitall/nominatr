@@ -15,6 +15,10 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     $scope.poll.choices.push({'id':'choice'+newItemNo});
   };
 
+  $scope.ignored = function(choice) {
+    return !choice.ignore;
+  };
+
   $scope.create = function() {
     var poll = new Polls({
       name: this.name,

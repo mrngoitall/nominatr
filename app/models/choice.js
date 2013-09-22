@@ -25,7 +25,7 @@ var ChoiceSchema = new Schema({
   },
   ignore: {
     type: Boolean,
-    default: 0
+    default: false
   },
   order: {
     type: Number,
