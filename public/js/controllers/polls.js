@@ -1,9 +1,9 @@
-angular.module('mean.polls').controller('PollsController', ['$scope', '$routeParams', '$location', '$timeout', 'Global', 'Polls', 'Votes', function ($scope, $routeParams, $location, $timeout, Global, Polls, Votes) {
+angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scope', '$routeParams', '$location', '$timeout', 'Global', 'Polls', 'Votes', function ($rootScope, $scope, $routeParams, $location, $timeout, Global, Polls, Votes) {
   $scope.global = Global;
 
   $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
 
-  $scope.global.shouldRefresh = false;
+  $rootScope.shouldRefresh = false;
   
   $scope.addNewChoice = function() {
     var newItemNo = $scope.choices.length+1;
@@ -94,7 +94,7 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
       }
     });
     $timeout.cancel($scope.timeout);
-    if ($scope.global.shouldRefresh) {
+    if ($rootScope.shouldRefresh) {
       $scope.timeout = $timeout(function() {
         $scope.findOne();
       }, 2000);
@@ -102,12 +102,12 @@ angular.module('mean.polls').controller('PollsController', ['$scope', '$routePar
   };
 
   $scope.findOneAndRefresh = function() {
-    $scope.global.shouldRefresh = true;
+    $rootScope.shouldRefresh = true;
     $scope.findOne();
   };
 
   $scope.findOneAndStopRefresh = function() {
-    $scope.global.shouldRefresh = false;
+    $rootScope.shouldRefresh = false;
     $scope.findOne();
   };
 
