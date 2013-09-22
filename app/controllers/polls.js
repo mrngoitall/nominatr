@@ -125,17 +125,24 @@ exports.update = function(req, res) {
   // it should set the ignore attribute on the old choice,
   // and add a new choice, with the same order attribute
   // as the "deleted" choice. If the user just deletes
-  // the name of a choice, consider it removed, 
-  // with nothing in its place. 
+  // the name of a choice, consider it removed,
+  // with nothing in its place.
   var reqChoices = req.body.choices;
   for (var i = 0; i < reqChoices.length; i++) {
-    // TODO: Ensure we're talking about the same _id
-    // This is implied, but you know...just in case.
+    // Confirming that the ids match. If they don't, it's probably a new choice
+    // If we ever decide to let users change the order of choices, we'll need
+    // to revisit this implementation.
     if (poll.choices[i] && reqChoices[i]._id === poll.choices[i]._id+'') {
       if (reqChoices[i].name && reqChoices[i].name !== poll.choices[i].name) {
         console.log('name change detected with ',reqChoices[i]._id);
         // Set the ignore attribute
+        Choice.findById(poll.choices[i]._id, function(err,thisChoice) {
+          thisChoice.ignore = true;
+          thisChoice.save();
+        });
         // Create a new Choice and save it
+        poll.save(function(err,savedPoll){
+        });
       }
     } else {
       // This is a new choice 
