@@ -96,11 +96,12 @@ exports.create = function(req, res) {
           savedChoice.save();
         });
       };
-      for (var i = 0; i < req.body.choices.length; i++) {
-        if (req.body.choices[i].name !== undefined && req.body.choices[i].name.length) {
+      var reqChoices = req.body.choices;
+      for (var i = 0; i < reqChoices.length; i++) {
+        if (reqChoices[i].name !== undefined && reqChoices[i].name.length) {
           var choice = new Choice({
             poll: poll._id,
-            name: req.body.choices[i].name,
+            name: reqChoices[i].name,
             order: i
           });
           choice.save(choiceSave);
@@ -115,12 +116,32 @@ exports.create = function(req, res) {
  * Update a poll
  */
 exports.update = function(req, res) {
-  // On the front end, if the user changes a choice,
-  // it should delete the old choice, and add a new choice
   console.log('req.body',req.body);
   var poll = req.poll;
   console.log('Updating poll',poll);
-  poll = _.extend(poll, req.body);
+  poll.name = req.body.name;
+  poll.updated = new Date();
+  // On the front end, if the user changes a choice,
+  // it should set the ignore attribute on the old choice,
+  // and add a new choice, with the same order attribute
+  // as the "deleted" choice. If the user just deletes
+  // the name of a choice, consider it removed, 
+  // with nothing in its place. 
+  var reqChoices = req.body.choices;
+  for (var i = 0; i < reqChoices.length; i++) {
+    // TODO: Ensure we're talking about the same _id
+    // This is implied, but you know...just in case.
+    if (poll.choices[i] && reqChoices[i]._id === poll.choices[i]._id+'') {
+      if (reqChoices[i].name && reqChoices[i].name !== poll.choices[i].name) {
+        console.log('name change detected with ',reqChoices[i]._id);
+        // Set the ignore attribute
+        // Create a new Choice and save it
+      }
+    } else {
+      // This is a new choice 
+      console.log('new choice detected');
+    }
+  }
   poll.save(function(err) {
     res.jsonp(poll);
   });
