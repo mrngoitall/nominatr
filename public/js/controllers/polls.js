@@ -6,9 +6,16 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
 
   $scope.today = function() {
     $scope.eventDate = new Date();
+  // Initialize time with the nearest upcoming 15 minute interval
+    var nextMinute = Math.ceil($scope.eventDate.getMinutes()/15)*15;
+    if (nextMinute === 60) {
+      nextMinute = 0;
+      $scope.eventDate.setHours($scope.eventDate.getHours()+1);
+    }
+    $scope.eventDate.setMinutes(nextMinute);
   };
   $scope.today();
-  $scope.minDate = new Date();
+  $scope.minDate = $scope.eventDate;
 
   // Clears date field
   $scope.clearDate = function () {
@@ -44,6 +51,9 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   };
 
   $scope.create = function() {
+    console.log('this',this);
+    console.log('$scope.eventDate',$scope.eventDate);
+    console.log(typeof this.eventDate);
     var poll = new Polls({
       name: this.name,
       choices: this.choices,

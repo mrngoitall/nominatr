@@ -10,7 +10,8 @@
     {{poll.name}} <a data-ng-show="global.user._id == poll.owner._id" href="/#!/polls/{{poll._id}}/edit">edit</a>
   </div>
   <div class="panel-body">
-    <p>Poll created by {{poll.owner.name}} on {{poll.created | date:'medium'}}</p>
+    <p>{{ poll.eventDate | date:'EEEE, MMMM d, yyyy h:mm a' }}</p>
+    <p>Poll created by {{poll.owner.name}} on {{poll.created | date:'EEEE, MMMM d, yyyy h:mm a'}}</p>
   </div>
 
   <table class="table">

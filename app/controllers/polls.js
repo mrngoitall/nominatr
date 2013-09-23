@@ -59,7 +59,8 @@ exports.create = function(req, res) {
   var poll = new Poll({
     name: req.body.name,
     choices: [],
-    invitees: []
+    invitees: [],
+    eventDate: req.body.eventDate
   });
   poll.owner = req.user;
 
