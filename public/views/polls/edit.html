@@ -1,5 +1,5 @@
 <section data-ng-controller="PollsController" data-ng-init="findOneAndStopRefresh()">
-  <form class="form-horizontal">
+  <form name="poll-edit" class="form-horizontal">
     <div class="control-group">
       <label class="control-label" for="name">Name</label>
       <div class="controls">
@@ -8,7 +8,7 @@
     </div>
     <div class="control-group">
       <label class="control-label" for="choice">Choices</label>
-      <div class="controls" data-ng-repeat="choice in poll.choices | filter:ignored">
+      <div class="controls" data-ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'">
         <poll-choice></poll-choice>
       </div>
     <button ng-click="addNewChoiceToExisting()" class="btn">Add</button>
