@@ -21,9 +21,11 @@ exports.vote = function(req, res, next, id) {
     // Convert the results into a nice nested object for angular to easily use in a template
     var voteObj = {};
     for (var i = 0; i < vote.length; i++) {
-      voteObj[vote[i].user._id] = voteObj[vote[i].user._id] || {};
-      voteObj[vote[i].user._id].name = vote[i].user.name;
-      voteObj[vote[i].user._id][vote[i].choice] = vote[i].vote;
+      if (vote[i].user && vote[i].user._id) { 
+        voteObj[vote[i].user._id] = voteObj[vote[i].user._id] || {};
+        voteObj[vote[i].user._id].name = vote[i].user.name;
+        voteObj[vote[i].user._id][vote[i].choice] = vote[i].vote;
+      }
     }
     // Saving vote object for later updates
     req.vote = vote;
@@ -59,7 +61,7 @@ exports.create = function(req, res) {
       }
     }
     res.redirect(req.originalUrl);
-  }
+  };
   if (req.user === undefined) {
     // Create a new user too,
     // so we can log them in and give them a cookie
