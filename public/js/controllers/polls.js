@@ -96,6 +96,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       } else {
         $scope.isParticipant = false;
       }
+      $scope.tallyVotes();
     });
     $timeout.cancel($scope.timeout);
     if ($rootScope.shouldRefresh) {
@@ -113,6 +114,25 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   $scope.findOneAndStopRefresh = function() {
     $rootScope.shouldRefresh = false;
     $scope.findOne();
+  };
+
+  // Create a new tally object to make it easier for Angular to consume
+  $scope.tallyVotes = function() {
+    var talliedVotes = {};
+    for (var user in $scope.votes) {
+      // On the first user, initialize the choices
+      if (!Object.keys(talliedVotes).length) {
+        for (var choice in $scope.votes[user]) {
+          talliedVotes[choice] = 0;
+        }
+      }
+      for (var choice in $scope.votes[user]) {
+        if ($scope.votes[user][choice]) {
+          talliedVotes[choice]++;
+        }
+      }
+    }
+    console.log('talliedVotes',talliedVotes);
   };
 
   // Detect when the user makes a change
