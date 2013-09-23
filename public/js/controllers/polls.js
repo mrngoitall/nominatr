@@ -132,7 +132,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
         }
       }
     }
-    console.log('talliedVotes',talliedVotes);
+    $scope.talliedVotes = talliedVotes;
   };
 
   // Detect when the user makes a change
@@ -143,6 +143,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
         if (JSON.stringify(newValue[$scope.global.user._id]) != JSON.stringify(oldValue[$scope.global.user._id])) {
           // Send an update to the server
           $scope.updateVotes();
+          $scope.tallyVotes();
         }
       }
     },
