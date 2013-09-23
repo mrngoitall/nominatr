@@ -117,41 +117,79 @@ exports.create = function(req, res) {
  */
 exports.update = function(req, res) {
   console.log('req.body',req.body);
-  var poll = req.poll;
-  console.log('Updating poll',poll);
-  poll.name = req.body.name;
-  poll.updated = new Date();
-  // On the front end, if the user changes a choice,
-  // it should set the ignore attribute on the old choice,
-  // and add a new choice, with the same order attribute
-  // as the "deleted" choice. If the user just deletes
-  // the name of a choice, consider it removed,
-  // with nothing in its place.
-  var reqChoices = req.body.choices;
-  for (var i = 0; i < reqChoices.length; i++) {
-    // Confirming that the ids match. If they don't, it's probably a new choice
-    // If we ever decide to let users change the order of choices, we'll need
-    // to revisit this implementation.
-    if (poll.choices[i] && reqChoices[i]._id === poll.choices[i]._id+'') {
-      if (reqChoices[i].name && reqChoices[i].name !== poll.choices[i].name) {
-        console.log('name change detected with ',reqChoices[i]._id);
-        // Set the ignore attribute
-        Choice.findById(poll.choices[i]._id, function(err,thisChoice) {
-          thisChoice.ignore = true;
-          thisChoice.save();
-        });
-        // Create a new Choice and save it
-        poll.save(function(err,savedPoll){
-        });
+  // Querying the DB rather than relying on req.poll, since
+  // req.poll can be outdated by now.
+  Poll.findById(req.body._id).populate('choices invitees').exec(function(err,thisPoll) {
+    thisPoll.name = req.body.name;
+    thisPoll.updated = new Date();
+    // On the front end, if the user changes a choice,
+    // it should set the ignore attribute on the old choice,
+    // and add a new choice, with the same order attribute
+    // as the "deleted" choice. If the user just deletes
+    // the name of a choice, consider it removed,
+    // with nothing in its place.
+    var reqChoices = req.body.choices;
+
+    var addNewChoice = function(choiceName) {
+      console.log('adding new choice',choiceName);
+      // Create a new Choice and save it
+      var newOrder = 0;
+      if (thisPoll.choices[i]) {
+        newOrder = thisPoll.choices[i].order;
+      } else {
+        newOrder = thisPoll.choices.length;
       }
-    } else {
-      // This is a new choice 
-      console.log('new choice detected');
+      var choice = new Choice({
+        name: choiceName,
+        order: newOrder
+      });
+      choice.save(function(err,savedChoice) {
+        if (err) { console.log('choice err',err); }
+        console.log('savedChoice',savedChoice);
+        // Generate vote objects for this new choice
+        for (var j = 0; j < thisPoll.invitees.length; j++ ) {
+          var vote = new Vote({
+            poll: thisPoll._id,
+            user: thisPoll.invitees[j].user,
+            choice: savedChoice._id
+          });
+          vote.save(function(err,savedVote) {
+            if (err) { console.log('vote err',err); }
+            console.log('savedVote',savedVote);
+            savedChoice.votes.push(savedVote);
+          });
+          if (j === thisPoll.invitees.length-1) {
+            savedChoice.save();
+          }
+        }
+        thisPoll.choices.push(savedChoice._id);
+        thisPoll.save();
+      });
     }
-  }
-  poll.save(function(err) {
-    res.jsonp(poll);
+    for (var i = 0; i < reqChoices.length; i++) {
+      // Confirming that the ids match. If they don't, it's probably a new choice
+      // If we ever decide to let users change the order of choices, we'll need
+      // to revisit this implementation.
+      if (thisPoll.choices[i] && reqChoices[i]._id === thisPoll.choices[i]._id+'') {
+        if (reqChoices[i].name && reqChoices[i].name !== thisPoll.choices[i].name) {
+          console.log('name change detected with ',reqChoices[i]._id);
+          // Set the ignore attribute
+          Choice.findById(thisPoll.choices[i]._id, function(err,thisChoice) {
+            thisChoice.ignore = true;
+            thisChoice.save();
+          });
+          addNewChoice(reqChoices[i].name);
+        }
+      } else {
+        addNewChoice(reqChoices[i].name);
+      }
+    }
+    thisPoll.save(function(err) {
+      res.jsonp(thisPoll);
+    });
   });
+  
+  
 };
 
 /**
