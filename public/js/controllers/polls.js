@@ -1,10 +1,34 @@
 angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scope', '$routeParams', '$location', '$timeout', 'Global', 'Polls', 'Votes', function ($rootScope, $scope, $routeParams, $location, $timeout, Global, Polls, Votes) {
   $scope.global = Global;
 
+
   $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
 
+  $scope.today = function() {
+    $scope.eventDate = new Date();
+  };
+  $scope.today();
+  $scope.minDate = new Date();
+
+  // Clears date field
+  $scope.clearDate = function () {
+    $scope.eventDate = null;
+  };
+
+  $scope.openDate = function() {
+    $timeout(function() {
+      $scope.dateOpened = true;
+    });
+  };
+
+  $scope.dateOptions = {
+    'year-format': "'yy'",
+    'starting-day': 0
+  };
+
+  // Toggles whether to continuously poll the server for updates
   $rootScope.shouldRefresh = false;
-  
+
   $scope.addNewChoice = function() {
     var newItemNo = $scope.choices.length+1;
     $scope.choices.push({'id':'choice'+newItemNo});
@@ -22,7 +46,8 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   $scope.create = function() {
     var poll = new Polls({
       name: this.name,
-      choices: this.choices
+      choices: this.choices,
+      eventDate: this.eventDate
     });
     poll.$save(function(response) {
       $location.path("polls/" + response._id);

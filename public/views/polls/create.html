@@ -5,6 +5,10 @@
       <div class="controls">
         <input type="text" data-ng-model="name" id="name" placeholder="Name" required>
       </div>
+      <div class="controls">
+        <input type="text" datepicker-popup="MMMM dd, yyyy" ng-model="eventDate" is-open="dateOpened" min="minDate" show-weeks="false" datepicker-options="dateOptions">
+        <button class="btn" ng-click="openDate()"><i class="icon-calendar"></i></button>
+      </div>
     </div>
     <div class="control-group">
       <label class="control-label" for="choice">Choices</label>
