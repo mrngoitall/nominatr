@@ -19,8 +19,8 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       var place = autocomplete.getPlace();
       //console.log(place);
       $scope.boundaries = new google.maps.LatLngBounds(
-        new google.maps.LatLng(place.geometry.viewport.ea.d,place.geometry.viewport.ia.d), 
-        new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b));
+        new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b), 
+        new google.maps.LatLng(place.geometry.viewport.ea.d,place.geometry.viewport.ia.d));
       $scope.boundchange++;
       $scope.location = place.formatted_address;
       if (!place.geometry) {

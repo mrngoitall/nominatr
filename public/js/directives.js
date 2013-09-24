@@ -19,7 +19,6 @@ angular.module('mean.polls', [])
         var autocomplete = new google.maps.places.Autocomplete(input);
         autocomplete.setTypes(['establishment']);
         autocomplete.setBounds(scope.$parent.boundaries);
-
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
           input.className = '';
           var place = autocomplete.getPlace();
@@ -38,7 +37,7 @@ angular.module('mean.polls', [])
       }
       var boundchange = scope.$parent.boundchange;
       scope.$watch('boundchange',function(v) {
-          //console.log(v);
+          autocomplete.setBounds(scope.$parent.boundaries);
         });
     }
   }
