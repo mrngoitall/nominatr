@@ -6,13 +6,20 @@
         <input type="text" data-ng-model="name" id="name" placeholder="Name" required>
       </div>
       <div class="controls">
-        <input type="text" datepicker-popup="MMMM dd, yyyy" ng-model="eventDate" is-open="dateOpened" min="minDate" show-weeks="false" datepicker-options="dateOptions">
-        <button class="btn" ng-click="openDate()"><i class="icon-calendar"></i></button>
+        <!-- <input type="text" datepicker-popup="MMMM dd, yyyy" ng-model="eventDate" is-open="dateOpened" min="minDate" show-weeks="false" datepicker-options="dateOptions">
+        <button class="btn" ng-click="openDate()"><i class="icon-calendar"></i></button> -->
+        <input type="text" ng-model="eventDate" data-date-format="MM dd, yyyy" bs-datepicker>
+        <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
       </div>
       <div class="controls">
-        <div ng-model="eventDate" class="well well-small">
+        <div ng-model="eventTime" class="well well-small">
           <timepicker hour-step="1" minute-step="15"></timepicker>
         </div>
+        <!-- <input type="text" ng-model="eventTime" bs-timepicker>
+        <button type="button" class="btn" data-toggle="timepicker"><i class="icon-time"></i></button> -->
+      </div>
+      <div class="controls">
+        <input id="location" type="text" size="50">
       </div>
     </div>
     <div class="control-group">
