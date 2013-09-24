@@ -1,6 +1,31 @@
 angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scope', '$routeParams', '$location', '$timeout', 'Global', 'Polls', 'Votes', function ($rootScope, $scope, $routeParams, $location, $timeout, Global, Polls, Votes) {
   $scope.global = Global;
 
+  var input = /** @type {HTMLInputElement} */(document.getElementById('location'));
+  if (input) {
+    var autocomplete = new google.maps.places.Autocomplete(input);
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function() {
+      input.className = '';
+      var place = autocomplete.getPlace();
+      console.log(place);
+      $scope.location = place.formatted_address;
+      if (!place.geometry) {
+        // Inform the user that the place was not found and return.
+        input.className = 'notfound';
+        return;
+      }
+    });
+  }
+
+  // autocomplete.setBounds(new google.maps.LatLngBounds(
+  //   new google.maps.LatLng({
+  //              "lat" : 37.812,
+  //              "lng" : -122.3482
+  //           }), new google.maps.LatLng({
+  //              "lat" : 37.70339999999999,
+  //              "lng" : -122.527
+  //           })));
 
   $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
 
@@ -16,6 +41,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   };
   $scope.today();
   $scope.minDate = $scope.eventDate;
+  $scope.eventTime = $scope.eventDate;
 
   // Clears date field
   $scope.clearDate = function () {
@@ -51,9 +77,8 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   };
 
   $scope.create = function() {
-    console.log('this',this);
-    console.log('$scope.eventDate',$scope.eventDate);
-    console.log(typeof this.eventDate);
+    $scope.eventDate.setHours($scope.eventTime.getHours());
+    $scope.eventDate.setMinutes($scope.eventTime.getMinutes());
     var poll = new Polls({
       name: this.name,
       choices: this.choices,
