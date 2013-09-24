@@ -1,14 +1,27 @@
 angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scope', '$routeParams', '$location', '$timeout', 'Global', 'Polls', 'Votes', function ($rootScope, $scope, $routeParams, $location, $timeout, Global, Polls, Votes) {
   $scope.global = Global;
 
+  $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
+  $scope.boundchange = 0;
+
   var input = /** @type {HTMLInputElement} */(document.getElementById('location'));
+  // Setting a default boundary for now, until we can propagate location changes to the autocompleter directive. 
+  $scope.boundaries = new google.maps.LatLngBounds(
+    new google.maps.LatLng(37.70339999999999,-122.527), 
+    new google.maps.LatLng(37.812,-122.3482));
   if (input) {
     var autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.setTypes(['geocode']);
+    autocomplete.setBounds($scope.boundaries);
 
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       input.className = '';
       var place = autocomplete.getPlace();
-      console.log(place);
+      //console.log(place);
+      $scope.boundaries = new google.maps.LatLngBounds(
+        new google.maps.LatLng(place.geometry.viewport.ea.d,place.geometry.viewport.ia.d), 
+        new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b));
+      $scope.boundchange++;
       $scope.location = place.formatted_address;
       if (!place.geometry) {
         // Inform the user that the place was not found and return.
@@ -17,17 +30,6 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       }
     });
   }
-
-  // autocomplete.setBounds(new google.maps.LatLngBounds(
-  //   new google.maps.LatLng({
-  //              "lat" : 37.812,
-  //              "lng" : -122.3482
-  //           }), new google.maps.LatLng({
-  //              "lat" : 37.70339999999999,
-  //              "lng" : -122.527
-  //           })));
-
-  $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
 
   $scope.today = function() {
     $scope.eventDate = new Date();

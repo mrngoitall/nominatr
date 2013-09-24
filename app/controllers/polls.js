@@ -103,6 +103,10 @@ exports.create = function(req, res) {
           var choice = new Choice({
             poll: poll._id,
             name: reqChoices[i].name,
+            address: reqChoices[i].address,
+            gid: reqChoices[i].gid,
+            gref: reqChoices[i].gref,
+            gurl: reqChoices[i].gurl,
             order: i
           });
           choice.save(choiceSave);

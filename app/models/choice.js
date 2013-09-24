@@ -23,6 +23,21 @@ var ChoiceSchema = new Schema({
     default: '',
     trim: true
   },
+  gid: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  gref: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  gurl: {
+    type: String,
+    default: '',
+    trim: true
+  },
   ignore: {
     type: Boolean,
     default: false
