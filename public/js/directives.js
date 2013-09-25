@@ -24,6 +24,8 @@ angular.module('mean.polls', [])
           //console.log('place',place);
           scope.choice.name = place.name;
           scope.choice.gid = place.id;
+          scope.choice.priceLevel = place.price_level;
+          scope.choice.rating = place.rating;
           scope.choice.gref = place.reference;
           scope.choice.gurl = place.gurl;
           scope.choice.address = place.formatted_address;
