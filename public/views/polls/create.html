@@ -34,7 +34,7 @@
       </div>
 
       <div class="form-group" data-ng-repeat="choice in choices">
-        <label class="col-xs-2 control-label" for="choice" ng-show="showLabel(choice)">Choices</label>
+        <label class="col-xs-2 control-label" for="choice" ng-show="showChoiceLabel(choice)">Choices</label>
         <div class="col-xs-2">
           <button ng-show="showAddChoice(choice)" ng-click="addNewChoice()" class="btn btn-info">Add another choice</button>
         </div>

@@ -34,9 +34,9 @@
       </div>
 
       <div class="form-group" data-ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'">
-        <label class="col-xs-2 control-label" for="choice" ng-show="showLabel(choice)">Choices</label>
+        <label class="col-xs-2 control-label" for="choice" ng-show="showChoiceLabelToExisting(choice)">Choices</label>
         <div class="col-xs-2">
-          <button ng-show="showAddChoice(choice)" ng-click="addNewChoiceToExisting()" class="btn btn-info">Add another choice</button>
+          <button ng-show="showAddChoiceToExisting(choice)" ng-click="addNewChoiceToExisting()" class="btn btn-info">Add another choice</button>
         </div>
         <div class="col-xs-10 controls" >
           <poll-choice></poll-choice>

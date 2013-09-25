@@ -82,13 +82,21 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     return !choice.ignore;
   };
 
-  $scope.showLabel = function(choice) {
+  $scope.showChoiceLabel = function(choice) {
     return choice.id === 'choice1';
+  };
+
+  $scope.showChoiceLabelToExisting = function(choice) {
+    return choice.order === $scope.poll.earliestChoice;
   };
 
   $scope.showAddChoice = function(choice) {
     return choice.id === $scope.choices[$scope.choices.length-1].id;
-  }
+  };
+
+  $scope.showAddChoiceToExisting = function(choice) {
+    return choice.order === $scope.poll.latestChoice;
+  };
 
   $scope.create = function() {
     $scope.eventDate.setHours($scope.eventTime.getHours());
@@ -160,6 +168,20 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
           $scope.guestVotes[poll.choices[i]._id] = false;
         }
       }
+      // Find the earliest and latest order number that's still valid
+      var latestChoice = 0;
+      var earliestChoice = poll.choices.length;
+      for (var i = 0; i < poll.choices.length; i++) {
+        var choice = poll.choices[i];
+        if (!choice.ignore && choice.order > latestChoice) {
+          latestChoice = choice.order;
+        }
+        if (!choice.ignore && choice.order < earliestChoice) {
+          earliestChoice = choice.order;
+        }
+      }
+      $scope.poll.latestChoice = latestChoice;
+      $scope.poll.earliestChoice = earliestChoice;
     });
     Votes.get({
       pollId: $routeParams.pollId
