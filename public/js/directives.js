@@ -21,14 +21,15 @@ angular.module('mean.polls', [])
         autocomplete.setBounds(scope.$parent.boundaries);
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
           var place = autocomplete.getPlace();
-          //console.log('place',place);
+          console.log('place',place);
           scope.choice.name = place.name;
           scope.choice.gid = place.id;
           scope.choice.priceLevel = place.price_level;
-          scope.choice.rating = place.rating;
+          scope.choice.grating = place.rating;
           scope.choice.gref = place.reference;
-          scope.choice.gurl = place.gurl;
-          scope.choice.address = place.formatted_address;
+          scope.choice.gurl = place.url;
+          scope.choice.url = place.website;
+          scope.choice.address = place.vicinity;
           if (!place.geometry) {
             // Inform the user that the place was not found and return.
             return;

@@ -42,9 +42,14 @@ var ChoiceSchema = new Schema({
     type: Number,
     default: 0
   },
-  rating: {
+  grating: {
     type: Number,
     default: 0.0
+  },
+  url: {
+    type: String,
+    default: '',
+    trim: true
   },
   ignore: {
     type: Boolean,
