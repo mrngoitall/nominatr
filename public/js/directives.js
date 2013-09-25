@@ -2,7 +2,7 @@ angular.module('mean.polls', [])
 .directive('pollChoice', function() {
   return {
     restrict: 'E',
-    template: '<input type="text" autocompleter ng-model="choice.name" name="{{ choice.id }}" id="{{ choice.id }}" placeholder="Your choice">' +
+    template: '<input class="form-control" type="text" autocompleter ng-model="choice.name" name="{{ choice.id }}" id="{{ choice.id }}" placeholder="Enter a restaurant name">' +
     '<div class="alert alert-warning" data-ng-show="">' +
         '<strong>Warning!</strong> Best check yo self, you\'re not looking too good.' +
     '</div>',
@@ -20,7 +20,6 @@ angular.module('mean.polls', [])
         autocomplete.setTypes(['establishment']);
         autocomplete.setBounds(scope.$parent.boundaries);
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          input.className = '';
           var place = autocomplete.getPlace();
           //console.log('place',place);
           scope.choice.name = place.name;
@@ -30,7 +29,6 @@ angular.module('mean.polls', [])
           scope.choice.address = place.formatted_address;
           if (!place.geometry) {
             // Inform the user that the place was not found and return.
-            input.className = 'notfound';
             return;
           }
         });

@@ -27,18 +27,19 @@
 
     <div class="form-group">
       <label class="col-xs-2 control-label" for="location">Location</label>
-      <div class="controls">
-        <input id="location" type="text" size="50">
+      <div class="col-xs-10">
+        <input class="form-control" id="location" type="text" size="50">
       </div>
     </div>
 
-    <div class="control-group">
-      <label class="control-label" for="choice">Choices</label>
-      <div class="controls" data-ng-repeat="choice in choices">
+    <div class="form-group" data-ng-repeat="choice in choices">
+      <label class="col-xs-2 control-label" for="choice" ng-show="showLabel(choice)">Choices</label>
+      <label class="col-xs-2 control-label" for="choice"></label>
+      <div class="col-xs-10 controls" >
         <poll-choice></poll-choice>
       </div>
-    <button ng-click="addNewChoice()" class="btn">Add</button>
     </div>
+    <button ng-click="addNewChoice()" class="btn">Add</button>
 
     <div class="control-group">
       <div class="controls">
