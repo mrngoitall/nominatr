@@ -7,11 +7,13 @@
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    {{poll.name}} <a data-ng-show="global.user._id == poll.owner._id" href="/#!/polls/{{poll._id}}/edit">edit</a>
+    <h1>{{poll.name}}</h1>
+    <h3 class="text-center">{{ poll.eventDate | date:'EEEE, MMMM d, yyyy h:mm a' }}</h3>
+    <p class="text-right"><a data-ng-show="global.user._id == poll.owner._id" href="/#!/polls/{{poll._id}}/edit">edit</a></p>
   </div>
   <div class="panel-body">
-    <p>{{ poll.eventDate | date:'EEEE, MMMM d, yyyy h:mm a' }}</p>
-    <p>Poll created by {{poll.owner.name}} on {{poll.created | date:'EEEE, MMMM d, yyyy h:mm a'}}</p>
+    <p></p>
+    <p>Poll created by {{poll.owner.name}}<!--  on {{poll.created | date:'EEEE, MMMM d, yyyy h:mm a'}} --></p>
   </div>
   <div class="table-responsive">
     <table class="table">

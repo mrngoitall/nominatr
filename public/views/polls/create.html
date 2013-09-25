@@ -13,7 +13,7 @@
           <!-- <input type="text" datepicker-popup="MMMM dd, yyyy" ng-model="eventDate" is-open="dateOpened" min="minDate" show-weeks="false" datepicker-options="dateOptions">
           <button class="btn" ng-click="openDate()"><i class="icon-calendar"></i></button> -->
           <input class="form-control" type="text" id="eventDate" ng-model="eventDate" data-date-format="MM dd, yyyy" bs-datepicker>
-        </div><button type="button" class="btn btn-default" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+        </div><button type="button" class="btn btn-info" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
       </div>
       <div class="form-group">
         <label class="col-xs-2 control-label" for="eventTime">Event Time</label>
@@ -36,7 +36,7 @@
       <div class="form-group" data-ng-repeat="choice in choices">
         <label class="col-xs-2 control-label" for="choice" ng-show="showLabel(choice)">Choices</label>
         <div class="col-xs-2">
-          <button ng-show="showAddChoice(choice)" ng-click="addNewChoice()" class="btn btn-default">Add another choice</button>
+          <button ng-show="showAddChoice(choice)" ng-click="addNewChoice()" class="btn btn-info">Add another choice</button>
         </div>
         <div class="col-xs-10 controls" >
           <poll-choice></poll-choice>
@@ -46,7 +46,7 @@
       <div class="form-group">
         <div class="col-xs-2"></div>
         <div class="col-xs-10">
-          <input type="submit" data-ng-click="create()" class="btn btn-primary">
+          <input type="submit" data-ng-click="create()" class="btn btn-success">
         </div>
       </div>
     </form>
