@@ -15,6 +15,11 @@
     <p></p>
     <p>Poll created by {{poll.owner.name}}<!--  on {{poll.created | date:'EEEE, MMMM d, yyyy h:mm a'}} --></p>
   </div>
+  <div class="alert alert-dismissable alert-success" ng-show="showNewPollIntro()">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <h3>Nice!</h3>
+    <p>You've create a poll! Now just copy and paste the link above and send it to everyone else that's going to be dining with you!</p>
+  </div>
   <div class="table-responsive">
     <table class="table">
       <thead>

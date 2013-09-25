@@ -98,6 +98,14 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     return choice.order === $scope.poll.latestChoice;
   };
 
+  $scope.showNewPollIntro = function() {
+    if ($scope.poll) {
+      return $scope.poll.invitees.length === 1;
+    } else {
+      return false;
+    }
+  };
+
   $scope.create = function() {
     var poll = new Polls({
       name: this.name,
