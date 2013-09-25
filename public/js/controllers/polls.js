@@ -86,6 +86,10 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     return choice.id === 'choice1';
   };
 
+  $scope.showAddChoice = function(choice) {
+    return choice.id === $scope.choices[$scope.choices.length-1].id;
+  }
+
   $scope.create = function() {
     $scope.eventDate.setHours($scope.eventTime.getHours());
     $scope.eventDate.setMinutes($scope.eventTime.getMinutes());
