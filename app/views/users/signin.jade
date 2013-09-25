@@ -2,17 +2,17 @@ extends auth
 
 block auth
   .well
-    form.signin.form-horizontal(action="/users/session", method="post")
+    form.signin.form-horizontal(action="/users/session", method="post", role="form")
       p.error= message
       .form-group
         label.col-xs-2.control-label(for='email') Email
-        .controls
-          input .form-control #email(type='text', name="email", placeholder='Email')
+        .col-xs-10
+          input.form-control#email(type='text', name="email", placeholder='Email')
 
       .form-group
         label.col-xs-2.control-label(for='password') Password
-        .controls
-          input .form-control #password(type='password', name="password", placeholder='Password')
+        .col-xs-10
+          input.form-control#password(type='password', name="password", placeholder='Password')
 
       .form-actions
         .col-xs-2 
