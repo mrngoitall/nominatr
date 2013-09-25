@@ -1,5 +1,5 @@
 <!-- Brand and toggle get grouped for better mobile display -->
-<div class="navbar-header" data-ng-controller="HeaderController">
+<div class="navbar-header" >
 <a class="navbar-brand" href="/">NOMinatr - Pick your noms</a>
 </div>
 
@@ -7,7 +7,6 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
 <ul class="nav navbar-nav">
   <li data-ng-repeat="item in menu" data-ng-show="global.user" ui-route="/{{item.link}}" ng-class="{active: $uiRoute}"><a href="#!/{{item.link}}">{{item.title}}</a></li>
-  <li><a href="#">Link</a></li>
 </ul>
 
 <ul class="nav navbar-nav navbar-right" data-ng-hide="global.authenticated">
