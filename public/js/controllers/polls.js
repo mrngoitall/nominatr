@@ -99,8 +99,6 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   };
 
   $scope.create = function() {
-    $scope.eventDate.setHours($scope.eventTime.getHours());
-    $scope.eventDate.setMinutes($scope.eventTime.getMinutes());
     var poll = new Polls({
       name: this.name,
       choices: this.choices,
@@ -124,6 +122,8 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   };
 
   $scope.update = function() {
+    $scope.poll.eventDate.setHours($scope.poll.eventTime.getHours());
+    $scope.poll.eventDate.setMinutes($scope.poll.eventTime.getMinutes());
     var poll = $scope.poll;
     poll.$update(function() {
       $location.path('polls/' + poll._id);
