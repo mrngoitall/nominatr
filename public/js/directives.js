@@ -22,7 +22,7 @@ angular.module('mean.polls', [])
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
           input.className = '';
           var place = autocomplete.getPlace();
-          console.log('place',place);
+          //console.log('place',place);
           scope.choice.name = place.name;
           scope.choice.gid = place.id;
           scope.choice.gref = place.reference;
