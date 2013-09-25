@@ -182,6 +182,10 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       }
       $scope.poll.latestChoice = latestChoice;
       $scope.poll.earliestChoice = earliestChoice;
+      $scope.poll.eventDate = new Date($scope.poll.eventDate);
+      $scope.poll.eventTime = new Date();
+      $scope.poll.eventTime.setHours(poll.eventDate.getHours());
+      $scope.poll.eventTime.setMinutes(poll.eventDate.getMinutes());
     });
     Votes.get({
       pollId: $routeParams.pollId
