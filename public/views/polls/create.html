@@ -1,14 +1,15 @@
-<section data-ng-controller="PollsController">
-  <form class="form-horizontal">
-    <div class="control-group">
-      <label class="control-label" for="name">Name</label>
-      <div class="controls">
-        <input type="text" data-ng-model="name" id="name" placeholder="Name" required>
+<section class="container" data-ng-controller="PollsController">
+  <form class="form-horizontal" role="form">
+    <div class="form-group">
+      <label class="col-lg-2 control-label" for="name">Name</label>
+      <div class="col-lg-10">
+        <input class="form-control" type="text" data-ng-model="name" id="name" placeholder="Name" required>
       </div>
-      <div class="controls">
+      <div class="col-lg-12">
         <!-- <input type="text" datepicker-popup="MMMM dd, yyyy" ng-model="eventDate" is-open="dateOpened" min="minDate" show-weeks="false" datepicker-options="dateOptions">
         <button class="btn" ng-click="openDate()"><i class="icon-calendar"></i></button> -->
-        <input type="text" ng-model="eventDate" data-date-format="MM dd, yyyy" bs-datepicker>
+        <label class="col-lg-2 control-label" for="eventDate">Event Date</label>
+        <input class="form-control" type="text" id="eventDate" ng-model="eventDate" data-date-format="MM dd, yyyy" bs-datepicker>
         <button type="button" class="btn" data-toggle="datepicker"><i class="icon-calendar"></i></button>
       </div>
       <div class="controls">
@@ -22,6 +23,7 @@
         <input id="location" type="text" size="50">
       </div>
     </div>
+
     <div class="control-group">
       <label class="control-label" for="choice">Choices</label>
       <div class="controls" data-ng-repeat="choice in choices">
