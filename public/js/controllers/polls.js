@@ -15,17 +15,21 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     autocomplete.setBounds($scope.boundaries);
 
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      input.className = '';
       var place = autocomplete.getPlace();
       //console.log(place);
-      $scope.boundaries = new google.maps.LatLngBounds(
-        new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b), 
-        new google.maps.LatLng(place.geometry.viewport.ea.d,place.geometry.viewport.ia.d));
+      if (place.geometry.viewport) {
+        $scope.boundaries = new google.maps.LatLngBounds(
+          new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b),
+          new google.maps.LatLng(place.geometry.viewport.ea.d,place.geometry.viewport.ia.d));
+      } else {
+        $scope.boundaries = new google.maps.LatLngBounds(
+          new google.maps.LatLng(place.geometry.location.nb-0.003,place.geometry.location.ob-0.003),
+          new google.maps.LatLng(place.geometry.location.nb+0.003,place.geometry.location.ob+0.003));
+      }
       $scope.boundchange++;
       $scope.location = place.formatted_address;
       if (!place.geometry) {
         // Inform the user that the place was not found and return.
-        input.className = 'notfound';
         return;
       }
     });
@@ -76,6 +80,10 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
 
   $scope.ignored = function(choice) {
     return !choice.ignore;
+  };
+
+  $scope.showLabel = function(choice) {
+    return choice.id === 'choice1';
   };
 
   $scope.create = function() {
