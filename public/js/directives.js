@@ -46,7 +46,7 @@ angular.module('mean.polls', [])
   return {
     restrict: 'A',
     template: '<td>{{ votes[invitee.user].name }}</td>' +
-              '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'">' +
+              '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'" ng-class="{success:votes[invitee.user][choice._id]}">' +
               '<span>' +
               '<vote-checkbox data-ng-show="global.user._id == invitee.user"></vote-checkbox>' +
               '<vote-checkbox-display data-ng-show="global.user._id != invitee.user"></vote-checkbox-display>' +
@@ -74,7 +74,7 @@ angular.module('mean.polls', [])
 .directive('voteCheckboxDisplay', function() {
   return {
     restrict: 'E',
-    template: '<span data-ng-show="votes[invitee.user][choice._id]">Yes!</span>',
+    template: '<i class="glyphicon glyphicon-ok" data-ng-show="votes[invitee.user][choice._id]"></i>',
     link: function(scope, ele, attrs, ctrl) {
     }
   };
