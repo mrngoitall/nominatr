@@ -2,7 +2,7 @@ angular.module('mean.polls', [])
 .directive('pollChoice', function() {
   return {
     restrict: 'E',
-    template: '<input type="text" autocompleter ng-model="choice.name" name="{{ choice.id }}" id="{{ choice.id }}" placeholder="Your choice">' +
+    template: '<input class="form-control" type="text" autocompleter ng-model="choice.name" name="{{ choice.id }}" id="{{ choice.id }}" placeholder="Enter a restaurant name">' +
     '<div class="alert alert-warning" data-ng-show="">' +
         '<strong>Warning!</strong> Best check yo self, you\'re not looking too good.' +
     '</div>',
@@ -20,17 +20,17 @@ angular.module('mean.polls', [])
         autocomplete.setTypes(['establishment']);
         autocomplete.setBounds(scope.$parent.boundaries);
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
-          input.className = '';
           var place = autocomplete.getPlace();
-          console.log('place',place);
+          //console.log('place',place);
           scope.choice.name = place.name;
           scope.choice.gid = place.id;
+          scope.choice.priceLevel = place.price_level;
+          scope.choice.rating = place.rating;
           scope.choice.gref = place.reference;
           scope.choice.gurl = place.gurl;
           scope.choice.address = place.formatted_address;
           if (!place.geometry) {
             // Inform the user that the place was not found and return.
-            input.className = 'notfound';
             return;
           }
         });
@@ -46,7 +46,7 @@ angular.module('mean.polls', [])
   return {
     restrict: 'A',
     template: '<td>{{ votes[invitee.user].name }}</td>' +
-              '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'">' +
+              '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'" ng-class="{success:votes[invitee.user][choice._id]}">' +
               '<span>' +
               '<vote-checkbox data-ng-show="global.user._id == invitee.user"></vote-checkbox>' +
               '<vote-checkbox-display data-ng-show="global.user._id != invitee.user"></vote-checkbox-display>' +
@@ -74,7 +74,7 @@ angular.module('mean.polls', [])
 .directive('voteCheckboxDisplay', function() {
   return {
     restrict: 'E',
-    template: '<span data-ng-show="votes[invitee.user][choice._id]">Yes!</span>',
+    template: '<i class="glyphicon glyphicon-ok" data-ng-show="votes[invitee.user][choice._id]"></i>',
     link: function(scope, ele, attrs, ctrl) {
     }
   };

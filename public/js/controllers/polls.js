@@ -15,17 +15,21 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     autocomplete.setBounds($scope.boundaries);
 
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
-      input.className = '';
       var place = autocomplete.getPlace();
       //console.log(place);
-      $scope.boundaries = new google.maps.LatLngBounds(
-        new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b), 
-        new google.maps.LatLng(place.geometry.viewport.ea.d,place.geometry.viewport.ia.d));
+      if (place.geometry.viewport) {
+        $scope.boundaries = new google.maps.LatLngBounds(
+          new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b),
+          new google.maps.LatLng(place.geometry.viewport.ea.d,place.geometry.viewport.ia.d));
+      } else {
+        $scope.boundaries = new google.maps.LatLngBounds(
+          new google.maps.LatLng(place.geometry.location.nb-0.003,place.geometry.location.ob-0.003),
+          new google.maps.LatLng(place.geometry.location.nb+0.003,place.geometry.location.ob+0.003));
+      }
       $scope.boundchange++;
       $scope.location = place.formatted_address;
       if (!place.geometry) {
         // Inform the user that the place was not found and return.
-        input.className = 'notfound';
         return;
       }
     });
@@ -78,9 +82,31 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     return !choice.ignore;
   };
 
+  $scope.showChoiceLabel = function(choice) {
+    return choice.id === 'choice1';
+  };
+
+  $scope.showChoiceLabelToExisting = function(choice) {
+    return choice.order === $scope.poll.earliestChoice;
+  };
+
+  $scope.showAddChoice = function(choice) {
+    return choice.id === $scope.choices[$scope.choices.length-1].id;
+  };
+
+  $scope.showAddChoiceToExisting = function(choice) {
+    return choice.order === $scope.poll.latestChoice;
+  };
+
+  $scope.showNewPollIntro = function() {
+    if ($scope.poll) {
+      return $scope.poll.invitees.length === 1;
+    } else {
+      return false;
+    }
+  };
+
   $scope.create = function() {
-    $scope.eventDate.setHours($scope.eventTime.getHours());
-    $scope.eventDate.setMinutes($scope.eventTime.getMinutes());
     var poll = new Polls({
       name: this.name,
       choices: this.choices,
@@ -104,6 +130,8 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   };
 
   $scope.update = function() {
+    $scope.poll.eventDate.setHours($scope.poll.eventTime.getHours());
+    $scope.poll.eventDate.setMinutes($scope.poll.eventTime.getMinutes());
     var poll = $scope.poll;
     poll.$update(function() {
       $location.path('polls/' + poll._id);
@@ -148,6 +176,24 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
           $scope.guestVotes[poll.choices[i]._id] = false;
         }
       }
+      // Find the earliest and latest order number that's still valid
+      var latestChoice = 0;
+      var earliestChoice = poll.choices.length;
+      for (var i = 0; i < poll.choices.length; i++) {
+        var choice = poll.choices[i];
+        if (!choice.ignore && choice.order > latestChoice) {
+          latestChoice = choice.order;
+        }
+        if (!choice.ignore && choice.order < earliestChoice) {
+          earliestChoice = choice.order;
+        }
+      }
+      $scope.poll.latestChoice = latestChoice;
+      $scope.poll.earliestChoice = earliestChoice;
+      $scope.poll.eventDate = new Date($scope.poll.eventDate);
+      $scope.poll.eventTime = new Date();
+      $scope.poll.eventTime.setHours(poll.eventDate.getHours());
+      $scope.poll.eventTime.setMinutes(poll.eventDate.getMinutes());
     });
     Votes.get({
       pollId: $routeParams.pollId

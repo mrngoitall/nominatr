@@ -38,6 +38,14 @@ var ChoiceSchema = new Schema({
     default: '',
     trim: true
   },
+  priceLevel: {
+    type: Number,
+    default: 0
+  },
+  rating: {
+    type: Number,
+    default: 0.0
+  },
   ignore: {
     type: Boolean,
     default: false

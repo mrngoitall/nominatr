@@ -107,6 +107,8 @@ exports.create = function(req, res) {
             gid: reqChoices[i].gid,
             gref: reqChoices[i].gref,
             gurl: reqChoices[i].gurl,
+            priceLevel: reqChoices[i].priceLevel,
+            rating: reqChoices[i].rating,
             order: i
           });
           choice.save(choiceSave);
@@ -127,6 +129,7 @@ exports.update = function(req, res) {
   Poll.findById(req.body._id).populate('choices invitees').exec(function(err,thisPoll) {
     thisPoll.name = req.body.name;
     thisPoll.updated = new Date();
+    thisPoll.eventDate = req.body.eventDate;
     // On the front end, if the user changes a choice,
     // it should set the ignore attribute on the old choice,
     // and add a new choice, with the same order attribute
