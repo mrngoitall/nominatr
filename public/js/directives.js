@@ -4,11 +4,17 @@ angular.module('mean.polls', [])
     restrict: 'E',
     template: '<input class="form-control" type="text" autocompleter ng-model="choice.name" name="{{ choice.id }}" id="{{ choice.id }}" placeholder="Enter a restaurant name">' +
     '<div class="alert alert-warning" data-ng-show="">' +
-        '<strong>Warning!</strong> Best check yo self, you\'re not looking too good.' +
+        '<strong>Warning!</strong> This resets the votes for this choice.' +
     '</div>',
     link: function(scope, ele, attrs, ctrl) {
     }
   };
+})
+.directive('pollHeaderRow', function() {
+  return {
+    restrict: 'E',
+    templateUrl: '/templates/pollHeaderRow.html'
+  }
 })
 .directive('autocompleter', function() {
   return {
@@ -21,11 +27,12 @@ angular.module('mean.polls', [])
         autocomplete.setBounds(scope.$parent.boundaries);
         google.maps.event.addListener(autocomplete, 'place_changed', function() {
           var place = autocomplete.getPlace();
-          console.log('place',place);
+          //console.log('place',place);
           scope.choice.name = place.name;
           scope.choice.gid = place.id;
           scope.choice.priceLevel = place.price_level;
-          scope.choice.grating = place.rating;
+          // Multiplying the rating by 10 since Mongoose doesn't support double/floats
+          scope.choice.grating = place.rating*10;
           scope.choice.gref = place.reference;
           scope.choice.gurl = place.url;
           scope.choice.url = place.website;
@@ -46,6 +53,11 @@ angular.module('mean.polls', [])
 .directive('voteRow', function() {
   return {
     restrict: 'A',
+    controller: ['$scope', function($scope) {
+      $scope.showChoiceLabel = function(choice) {
+        return choice.id === 'choice1';
+      };
+    }],
     template: '<td>{{ votes[invitee.user].name }}</td>' +
               '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'" ng-class="{success:votes[invitee.user][choice._id]}">' +
               '<span>' +
