@@ -23,6 +23,11 @@ var ChoiceSchema = new Schema({
     default: '',
     trim: true
   },
+  fullAddress: {
+    type: String,
+    default: '',
+    trim: true
+  },
   gid: {
     type: String,
     default: '',

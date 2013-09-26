@@ -104,6 +104,7 @@ exports.create = function(req, res) {
             poll: poll._id,
             name: reqChoices[i].name,
             address: reqChoices[i].address,
+            fullAddress: reqChoices[i].fullAddress,
             gid: reqChoices[i].gid,
             gref: reqChoices[i].gref,
             gurl: reqChoices[i].gurl,
@@ -154,6 +155,7 @@ exports.update = function(req, res) {
         poll: thisPoll._id,
         order: newOrder,
         address: reqChoices[i].address,
+        fullAddress: reqChoices[i].fullAddress,
         gid: reqChoices[i].gid,
         gref: reqChoices[i].gref,
         gurl: reqChoices[i].gurl,
@@ -197,7 +199,7 @@ exports.update = function(req, res) {
         if (reqChoices[i].gid && reqChoices[i].gid !== thisPoll.choices[i].gid) {
           console.log('name change detected with ',reqChoices[i]._id);
           // Set the ignore attribute
-          Choice.findById(thisPoll.choices[i]._id, savedChoice);
+          Choice.findById(thisPoll.choices[i]._id, saveChoice);
           addNewChoice(reqChoices[i].name);
         }
       } else {

@@ -34,7 +34,7 @@ angular.module('mean.polls', [])
   return {
     restrict: 'E',
     template: '<span ng-show="hasStarRating(choice)">{{ choice.grating/10 }} stars</span>' +
-      '<span ng-show="hasStarRating(choice) && hasPriceRating(choice)">/</span>' +
+      '<span ng-show="hasStarRating(choice) && hasPriceRating(choice)"> / </span>' +
       '<span ng-show="hasPriceRating(choice)">{{ choice.priceLevel/10 | priceRateFormat}}</span>'
   };
 })
@@ -59,6 +59,7 @@ angular.module('mean.polls', [])
           scope.choice.gurl = place.url;
           scope.choice.url = place.website;
           scope.choice.address = place.vicinity;
+          scope.choice.fullAddress = place.formatted_address;
           if (!place.geometry) {
             // Inform the user that the place was not found and return.
             return;
