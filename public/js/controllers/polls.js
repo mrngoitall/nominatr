@@ -106,6 +106,9 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     }
   };
 
+  // $scope.create = PollService.create;
+  // $scope.remove = PollService.remove;
+
   $scope.create = function() {
     if (this.name) {
       var poll = new Polls({
@@ -172,7 +175,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       pollId: $routeParams.pollId
     }, function(poll) {
       $scope.poll = poll;
-      if ($scope.guestVotes == undefined) {
+      if ($scope.guestVotes === undefined) {
         $scope.guestVotes = new Votes();
         for (var i = 0; i < poll.choices.length; i++ ) {
           $scope.guestVotes[poll.choices[i]._id] = false;
@@ -181,8 +184,8 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       // Find the earliest and latest order number that's still valid
       var latestChoice = 0;
       var earliestChoice = poll.choices.length;
-      for (var i = 0; i < poll.choices.length; i++) {
-        var choice = poll.choices[i];
+      for (var j = 0; j < poll.choices.length; j++) {
+        var choice = poll.choices[j];
         if (!choice.ignore && choice.order > latestChoice) {
           latestChoice = choice.order;
         }
@@ -197,6 +200,8 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       $scope.poll.eventTime.setHours(poll.eventDate.getHours());
       $scope.poll.eventTime.setMinutes(poll.eventDate.getMinutes());
     });
+    // var poll = Poll.get($routeParams.pollId),
+        // votes = Votes.get($routeParams.pollId);
     Votes.get({
       pollId: $routeParams.pollId
     }, function(votes) {
@@ -236,9 +241,9 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
           talliedVotes[choice] = 0;
         }
       }
-      for (var choice in $scope.votes[user]) {
-        if ($scope.votes[user][choice]) {
-          talliedVotes[choice]++;
+      for (var choiceId in $scope.votes[user]) {
+        if ($scope.votes[user][choiceId]) {
+          talliedVotes[choiceId]++;
         }
       }
     }
@@ -248,7 +253,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   // Detect when the user makes a change
   $scope.$watch('votes',
     function(newValue,oldValue) {
-      if (newValue != undefined && oldValue != undefined) {
+      if (newValue !== undefined && oldValue !== undefined) {
         // Comparing stringified versions of the object so we can make a comparison based on values
         if (JSON.stringify(newValue[$scope.global.user._id]) != JSON.stringify(oldValue[$scope.global.user._id])) {
           // Send an update to the server

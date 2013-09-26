@@ -165,17 +165,18 @@ exports.update = function(req, res) {
         if (err) { console.log('choice err',err); }
         console.log('savedChoice',savedChoice);
         // Generate vote objects for this new choice
+        var saveVotes = function(err,savedVote) {
+          if (err) { console.log('vote err',err); }
+          console.log('savedVote',savedVote);
+          savedChoice.votes.push(savedVote);
+        };
         for (var j = 0; j < thisPoll.invitees.length; j++ ) {
           var vote = new Vote({
             poll: thisPoll._id,
             user: thisPoll.invitees[j].user,
             choice: savedChoice._id
           });
-          vote.save(function(err,savedVote) {
-            if (err) { console.log('vote err',err); }
-            console.log('savedVote',savedVote);
-            savedChoice.votes.push(savedVote);
-          });
+          vote.save(saveVotes);
           if (j === thisPoll.invitees.length-1) {
             savedChoice.save();
           }
@@ -183,7 +184,11 @@ exports.update = function(req, res) {
         thisPoll.choices.push(savedChoice._id);
         thisPoll.save();
       });
-    }
+    };
+    var saveChoice = function(err,thisChoice) {
+      thisChoice.ignore = true;
+      thisChoice.save();
+    };
     for (var i = 0; i < reqChoices.length; i++) {
       // Confirming that the ids match. If they don't, it's probably a new choice
       // If we ever decide to let users change the order of choices, we'll need
@@ -192,10 +197,7 @@ exports.update = function(req, res) {
         if (reqChoices[i].gid && reqChoices[i].gid !== thisPoll.choices[i].gid) {
           console.log('name change detected with ',reqChoices[i]._id);
           // Set the ignore attribute
-          Choice.findById(thisPoll.choices[i]._id, function(err,thisChoice) {
-            thisChoice.ignore = true;
-            thisChoice.save();
-          });
+          Choice.findById(thisPoll.choices[i]._id, savedChoice);
           addNewChoice(reqChoices[i].name);
         }
       } else {

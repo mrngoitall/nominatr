@@ -6,7 +6,7 @@ angular.module('mean.filters', [])
     } else {
       return '';
     }
-  }
+  };
 })
 .filter('priceRateFormat', function() {
   return function(priceRating) {
@@ -15,5 +15,5 @@ angular.module('mean.filters', [])
       rating += '$';
     }
     return rating;
-  }
-})
+  };
+});

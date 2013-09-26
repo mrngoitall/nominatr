@@ -15,11 +15,14 @@ angular.module('mean.polls', [])
     restrict: 'A',
     templateUrl: '/templates/pollHeaderRow.html',
     controller: ['$scope', function($scope) {
-      $scope.hasRating = function(choice) {
+      $scope.hasStarRating = function(choice) {
         return choice.grating && choice.grating > 0;
       };
+      $scope.hasPriceRating = function(choice) {
+        return choice.priceLevel && choice.priceLevel > 0;
+      };
     }],
-  }
+  };
 })
 .directive('autocompleter', function() {
   return {
@@ -53,7 +56,7 @@ angular.module('mean.polls', [])
           autocomplete.setBounds(scope.$parent.boundaries);
         });
     }
-  }
+  };
 })
 .directive('voteRow', function() {
   return {
