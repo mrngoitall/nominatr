@@ -107,16 +107,16 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   };
 
   $scope.create = function() {
-    var poll = new Polls({
-      name: this.name,
-      choices: this.choices,
-      eventDate: this.eventDate
-    });
-    poll.$save(function(response) {
-      $location.path("polls/" + response._id);
-    });
-
-    this.name = "";
+    if (this.name) {
+      var poll = new Polls({
+        name: this.name,
+        choices: this.choices,
+        eventDate: this.eventDate
+      });
+      poll.$save(function(response) {
+        $location.path("polls/" + response._id);
+      });
+    }
   };
 
   $scope.remove = function(poll) {
@@ -132,10 +132,12 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   $scope.update = function() {
     $scope.poll.eventDate.setHours($scope.poll.eventTime.getHours());
     $scope.poll.eventDate.setMinutes($scope.poll.eventTime.getMinutes());
-    var poll = $scope.poll;
-    poll.$update(function() {
-      $location.path('polls/' + poll._id);
-    });
+    if ($scope.poll.name) {
+      var poll = $scope.poll;
+      poll.$update(function() {
+        $location.path('polls/' + poll._id);
+      });
+    }
   };
 
   $scope.createGuestVotes = function() {
