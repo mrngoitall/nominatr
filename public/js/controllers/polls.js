@@ -110,9 +110,12 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   // $scope.remove = PollService.remove;
 
   $scope.create = function() {
+    this.eventDate.setHours($scope.eventTime.getHours());
+    this.eventDate.setMinutes($scope.eventTime.getMinutes());
     if (this.name) {
       var poll = new Polls({
         name: this.name,
+        location: JSON.stringify($scope.boundaries),
         choices: this.choices,
         eventDate: this.eventDate
       });
