@@ -3,6 +3,6 @@
 </th>
 <th ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'">
   <p><a href="{{ choice.url }}">{{ choice.name }}</a></p>
-  <p ng-show="hasRating(choice)"><a href="{{ choice.gurl }}">{{ choice.grating/10 | removeZeros}} stars / {{ choice.priceLevel/10 | priceRateFormat}}</a></p>
+  <p ng-show="hasStarRating(choice)"><a href="{{ choice.gurl }}">{{ choice.grating/10 | removeZeros}} stars / {{ choice.priceLevel/10 | priceRateFormat}}</a></p>
   <p>{{ choice.address }}</p>
 </th>
