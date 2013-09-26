@@ -242,7 +242,7 @@ exports.show = function(req, res) {
  * List of Polls
  */
 exports.all = function(req, res) {
-  Poll.find().sort('-created').populate('user').exec(function(err, polls) {
+  Poll.find({owner: req.user._id}).sort('-created').populate('user').exec(function(err, polls) {
     if (err) {
       res.render('error', {
         status: 500
