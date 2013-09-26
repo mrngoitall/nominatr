@@ -21,7 +21,21 @@ angular.module('mean.polls', [])
       $scope.hasPriceRating = function(choice) {
         return choice.priceLevel && choice.priceLevel > 0;
       };
+      $scope.hasLink = function(choice) {
+        return choice.url.length > 0;
+      };
+      $scope.hasGLink = function(choice) {
+        return choice.gurl.length > 0;
+      };
     }],
+  };
+})
+.directive('googleRatings', function() {
+  return {
+    restrict: 'E',
+    template: '<span ng-show="hasStarRating(choice)">{{ choice.grating/10 }} stars</span>' +
+      '<span ng-show="hasStarRating(choice) && hasPriceRating(choice)">/</span>' +
+      '<span ng-show="hasPriceRating(choice)">{{ choice.priceLevel/10 | priceRateFormat}}</span>'
   };
 })
 .directive('autocompleter', function() {
