@@ -12,8 +12,13 @@ angular.module('mean.polls', [])
 })
 .directive('pollHeaderRow', function() {
   return {
-    restrict: 'E',
-    templateUrl: '/templates/pollHeaderRow.html'
+    restrict: 'A',
+    templateUrl: '/templates/pollHeaderRow.html',
+    controller: ['$scope', function($scope) {
+      $scope.hasRating = function(choice) {
+        return choice.grating && choice.grating > 0;
+      };
+    }],
   }
 })
 .directive('autocompleter', function() {
@@ -53,11 +58,6 @@ angular.module('mean.polls', [])
 .directive('voteRow', function() {
   return {
     restrict: 'A',
-    controller: ['$scope', function($scope) {
-      $scope.showChoiceLabel = function(choice) {
-        return choice.id === 'choice1';
-      };
-    }],
     template: '<td>{{ votes[invitee.user].name }}</td>' +
               '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'" ng-class="{success:votes[invitee.user][choice._id]}">' +
               '<span>' +

@@ -22,7 +22,7 @@
   </div>
   <div class="table-responsive">
     <table class="table">
-      <poll-header-row></poll-header-row>
+      <thead poll-header-row></thead>
       <tfoot>
         <tr><td>Total</td>
           <td ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'"> {{ talliedVotes[choice._id] }}</td>
