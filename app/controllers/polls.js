@@ -60,7 +60,8 @@ exports.create = function(req, res) {
     name: req.body.name,
     choices: [],
     invitees: [],
-    eventDate: req.body.eventDate
+    eventDate: req.body.eventDate,
+    location: req.body.location
   });
   poll.owner = req.user;
 
@@ -132,6 +133,7 @@ exports.update = function(req, res) {
     thisPoll.name = req.body.name;
     thisPoll.updated = new Date();
     thisPoll.eventDate = req.body.eventDate;
+    thisPoll.location = req.body.location;
     // On the front end, if the user changes a choice,
     // it should set the ignore attribute on the old choice,
     // and add a new choice, with the same order attribute

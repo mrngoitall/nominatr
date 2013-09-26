@@ -27,7 +27,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
           new google.maps.LatLng(place.geometry.location.nb+0.003,place.geometry.location.ob+0.003));
       }
       $scope.boundchange++;
-      $scope.location = place.formatted_address;
+      $scope.location = place;
       if (!place.geometry) {
         // Inform the user that the place was not found and return.
         return;
@@ -115,7 +115,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
     if (this.name) {
       var poll = new Polls({
         name: this.name,
-        location: JSON.stringify($scope.boundaries),
+        location: JSON.stringify($scope.location),
         choices: this.choices,
         eventDate: this.eventDate
       });
@@ -202,6 +202,21 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       $scope.poll.eventTime = new Date();
       $scope.poll.eventTime.setHours(poll.eventDate.getHours());
       $scope.poll.eventTime.setMinutes(poll.eventDate.getMinutes());
+      if (poll.location) {
+        $scope.location = JSON.parse(poll.location);
+        if ($scope.location.geometry.viewport) {
+        $scope.boundaries = new google.maps.LatLngBounds(
+          new google.maps.LatLng($scope.location.geometry.viewport.ea.b,$scope.location.geometry.viewport.ia.b),
+          new google.maps.LatLng($scope.location.geometry.viewport.ea.d,$scope.location.geometry.viewport.ia.d));
+        } else {
+          $scope.boundaries = new google.maps.LatLngBounds(
+            new google.maps.LatLng($scope.location.geometry.location.nb-0.003,$scope.location.geometry.location.ob-0.003),
+            new google.maps.LatLng($scope.location.geometry.location.nb+0.003,$scope.location.geometry.location.ob+0.003));
+        }
+        if (input) {
+          autocomplete.setBounds($scope.boundaries);
+        }
+      }
     });
     // var poll = Poll.get($routeParams.pollId),
         // votes = Votes.get($routeParams.pollId);
