@@ -9,11 +9,14 @@
       </div>
       <div class="form-group">
         <label class="col-xs-2 control-label" for="eventDate">Event Date</label>
-        <div class="col-xs-9">
+        <div class="col-xs-9 input-group">
           <!-- <input type="text" datepicker-popup="MMMM dd, yyyy" ng-model="eventDate" is-open="dateOpened" min="minDate" show-weeks="false" datepicker-options="dateOptions">
           <button class="btn" ng-click="openDate()"><i class="icon-calendar"></i></button> -->
-          <input class="form-control" type="text" id="eventDate" ng-model="eventDate" data-date-format="MM dd, yyyy" bs-datepicker>
-        </div><button type="button" class="btn btn-info" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+          <span class="input-group-btn">
+            <input class="form-control" type="text" id="eventDate" ng-model="eventDate" data-date-format="MM dd, yyyy" bs-datepicker>
+            <button type="button" class="btn btn-info" data-toggle="datepicker"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </div>
       </div>
       <div class="form-group">
         <label class="col-xs-2 control-label" for="eventTime">Event Time</label>
