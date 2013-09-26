@@ -47,7 +47,11 @@ var PollSchema = new Schema({
  * Validations
  */
 PollSchema.path('name').validate(function(name) {
-  return name.length;
+  if (name) {
+    return name.length;
+  } else {
+    return 0;
+  }
 }, 'Name cannot be blank');
 
 /**
