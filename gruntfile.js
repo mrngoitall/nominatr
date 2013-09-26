@@ -10,7 +10,7 @@ module.exports = function(grunt) {
                 },
             },
             html: {
-                files: ['public/views/**'],
+                files: ['public/views/**','public/templates/**'],
                 options: {
                     livereload: true,
                 },
