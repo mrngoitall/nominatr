@@ -44,7 +44,7 @@ var ChoiceSchema = new Schema({
   },
   grating: {
     type: Number,
-    default: 0.0
+    default: 0
   },
   url: {
     type: String,
