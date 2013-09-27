@@ -51,8 +51,8 @@ module.exports = function(passport) {
 
     //Use twitter strategy
     passport.use(new TwitterStrategy({
-            consumerKey: config.twitter.clientID,
-            consumerSecret: config.twitter.clientSecret,
+            consumerKey: process.env.TWITTER_CONSUMER_KEY || config.twitter.clientID,
+            consumerSecret: process.env.TWITTER_CONSUMER_SECRET || config.twitter.clientSecret,
             callbackURL: config.twitter.callbackURL
         },
         function(token, tokenSecret, profile, done) {
@@ -115,8 +115,8 @@ module.exports = function(passport) {
 
     //Use github strategy
     passport.use(new GitHubStrategy({
-            clientID: config.github.clientID,
-            clientSecret: config.github.clientSecret,
+            clientID: process.env.GITHUB_CLIENT_ID || config.github.clientID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET || config.github.clientSecret,
             callbackURL: config.github.callbackURL
         },
         function(accessToken, refreshToken, profile, done) {
@@ -144,8 +144,8 @@ module.exports = function(passport) {
 
     //Use google strategy
     passport.use(new GoogleStrategy({
-            consumerKey: config.google.clientID,
-            consumerSecret: config.google.clientSecret,
+            consumerKey: process.env.GOOGLE_CLIENT_KEY || config.google.clientID,
+            consumerSecret: process.env.GOOGLE_CLIENT_SECRET || config.google.clientSecret,
             callbackURL: config.google.callbackURL
         },
         function(accessToken, refreshToken, profile, done) {
