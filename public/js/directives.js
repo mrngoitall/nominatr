@@ -30,6 +30,24 @@ angular.module('mean.polls', [])
     }],
   };
 })
+.directive('confirmOnExit', function() {
+  return {
+    link: function($scope, elem, attrs) {
+      window.onbeforeunload = function(){
+        if ($scope.createPoll.$dirty) {
+          return "Wait! You're not done create a new poll!";
+        }
+      }
+      $scope.$on('$locationChangeStart', function(event, next, current) {
+        if ($scope.createPoll.$dirty) {
+          if(!confirm("Are you sure you want to leave?")) {
+            event.preventDefault();
+          }
+        }
+      });
+    }
+  };
+})
 .directive('googleRatings', function() {
   return {
     restrict: 'E',
