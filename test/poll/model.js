@@ -25,7 +25,7 @@ describe('<Unit Test>', function() {
             user.save(function(err) {                
                 poll = new Poll({
                     name: 'Poll Title',
-                    user: user
+                    owner: user._id
                 });
 
                 done();
@@ -33,14 +33,14 @@ describe('<Unit Test>', function() {
         });
 
         describe('Method Save', function() {
-            it('should be able to save whithout problems', function(done) {
+            it('should be able to save without problems', function(done) {
                 return poll.save(function(err) {
                     should.not.exist(err);
                     done();
                 });
             });
 
-            it('should be able to show an error when try to save witout name', function(done) {
+            it('should be able to show an error when try to save without name', function(done) {
                 poll.name = '';
 
                 return poll.save(function(err) {
@@ -51,6 +51,7 @@ describe('<Unit Test>', function() {
         });
 
         afterEach(function(done) {
+            User.FindOneAndRemove
             done();
         });
     });
