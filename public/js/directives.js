@@ -54,7 +54,7 @@ angular.module('mean.polls', [])
     restrict: 'E',
     template: '<span ng-show="hasStarRating(choice)">{{ choice.grating/10 }} stars</span>' +
       '<span ng-show="hasStarRating(choice) && hasPriceRating(choice)"> / </span>' +
-      '<span ng-show="hasPriceRating(choice)">{{ choice.priceLevel/10 | priceRateFormat}}</span>'
+      '<span ng-show="hasPriceRating(choice)">{{ choice.priceLevel | priceRateFormat}}</span>'
   };
 })
 .directive('autocompleter', function() {

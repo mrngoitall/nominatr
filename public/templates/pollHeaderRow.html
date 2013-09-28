@@ -5,7 +5,7 @@
   <p ng-show="hasLink(choice)"><a href="{{ choice.url }}">{{ choice.name }}</a></p>
   <p ng-hide="hasLink(choice)">{{ choice.name }}</p>
   <p ng-show="hasStarRating(choice) || hasPriceRating(choice)">
-    <a ng-show="hasGLink(choice)" href="{{ choice.gurl }}">
+    <a ng-show="hasGLink(choice)" target="_blank" href="{{ choice.gurl }}">
       <google-ratings></google-ratings>
     </a>
     <span ng-hide="hasGLink(choice)">
@@ -13,7 +13,7 @@
     </span>
   </p>
   <p ng-hide="hasStarRating(choice) || hasPriceRating(choice)">
-    <a ng-show="hasGLink(choice)" href="{{ choice.gurl }}">
+    <a ng-show="hasGLink(choice)" target="_blank" href="{{ choice.gurl }}">
       View on Google+
     </a>
   </p>
