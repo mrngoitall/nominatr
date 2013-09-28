@@ -17,5 +17,5 @@
       View on Google+
     </a>
   </p>
-  <small><a target="_blank" href="http://maps.google.com/?q={{ choice.name }} {{ choice.fullAddress }}">{{ choice.address }}</a></small>
+  <small ng-show="hasGLink(choice)"><a target="_blank" href="http://maps.google.com/?q={{ choice.name }} {{ choice.fullAddress }}">{{ choice.address }}</a></small>
 </th>

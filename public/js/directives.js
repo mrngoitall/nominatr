@@ -16,16 +16,16 @@ angular.module('mean.polls', [])
     templateUrl: '/templates/pollHeaderRow.html',
     controller: ['$scope', function($scope) {
       $scope.hasStarRating = function(choice) {
-        return choice.grating && choice.grating > 0;
+        return choice.gid && choice.grating && choice.grating > 0;
       };
       $scope.hasPriceRating = function(choice) {
-        return choice.priceLevel && choice.priceLevel > 0;
+        return choice.gid && choice.priceLevel && choice.priceLevel > 0;
       };
       $scope.hasLink = function(choice) {
-        return choice.url.length > 0;
+        return choice.gid && choice.url.length > 0;
       };
       $scope.hasGLink = function(choice) {
-        return choice.gurl.length > 0;
+        return choice.gid && choice.gurl.length > 0;
       };
     }],
   };
@@ -70,6 +70,7 @@ angular.module('mean.polls', [])
           var place = autocomplete.getPlace();
           //console.log('place',place);
           scope.choice.name = place.name;
+          scope.choice.gname = place.name;
           scope.choice.gid = place.id;
           scope.choice.priceLevel = place.price_level;
           // Multiplying the rating by 10 since Mongoose doesn't support double/floats

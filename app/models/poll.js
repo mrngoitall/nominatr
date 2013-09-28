@@ -28,6 +28,11 @@ var PollSchema = new Schema({
     default: '',
     trim: true
   },
+  gname: {
+    type: String,
+    default: '',
+    trim: true
+  },
   eventDate: {
     type: Date,
     default: Date.now

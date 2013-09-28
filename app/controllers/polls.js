@@ -154,6 +154,7 @@ exports.update = function(req, res) {
       console.log('reqChoices[i]',reqChoices[i]);
       var choice = new Choice({
         name: choiceName,
+        gname: reqChoices[i].gname,
         poll: thisPoll._id,
         order: newOrder,
         address: reqChoices[i].address,
@@ -165,6 +166,9 @@ exports.update = function(req, res) {
         grating: reqChoices[i].grating,
         url: reqChoices[i].url
       });
+      if (choice.gid && choice.name !== reqChoices[i].gname) {
+        choice.gid = '';
+      }
       choice.save(function(err,savedChoice) {
         if (err) { console.log('choice err',err); }
         console.log('savedChoice',savedChoice);
@@ -198,14 +202,19 @@ exports.update = function(req, res) {
       // If we ever decide to let users change the order of choices, we'll need
       // to revisit this implementation.
       if (thisPoll.choices[i] && reqChoices[i]._id === thisPoll.choices[i]._id+'') {
-        if (reqChoices[i].gid && reqChoices[i].gid !== thisPoll.choices[i].gid) {
-          console.log('name change detected with ',reqChoices[i]._id);
+        if ((reqChoices[i].gid && reqChoices[i].gid !== thisPoll.choices[i].gid) || 
+          (reqChoices[i].name !== thisPoll.choices[i].name)) {
+          console.log('choice change detected with ',reqChoices[i]._id);
           // Set the ignore attribute
           Choice.findById(thisPoll.choices[i]._id, saveChoice);
-          addNewChoice(reqChoices[i].name);
+          if (reqChoices[i].name) {
+            addNewChoice(reqChoices[i].name);
+          }
         }
       } else {
-        addNewChoice(reqChoices[i].name);
+        if (reqChoices[i].name) {
+          addNewChoice(reqChoices[i].name);
+        }
       }
     }
     thisPoll.save(function(err) {
