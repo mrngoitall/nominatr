@@ -123,6 +123,9 @@ module.exports = function(passport) {
             User.findOne({
                 'github.id': profile.id
             }, function(err, user) {
+                if (err) {
+                    return done(err);
+                }
                 if (!user) {
                     user = new User({
                         name: profile.displayName,
@@ -152,6 +155,9 @@ module.exports = function(passport) {
             User.findOne({
                 'google.id': profile.id
             }, function(err, user) {
+                if (err) {
+                    return done(err);
+                }
                 if (!user) {
                     user = new User({
                         name: profile.displayName,
