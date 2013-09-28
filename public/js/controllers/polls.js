@@ -170,6 +170,9 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   $scope.find = function(query) {
     Polls.query(query, function(polls) {
       $scope.polls = polls;
+      if (!polls || polls.length === 0) {
+        $location.path('polls/create');
+      }
     });
   };
 
@@ -205,10 +208,13 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
       if (poll.location) {
         $scope.location = JSON.parse(poll.location);
         if ($scope.location.geometry.viewport) {
-        $scope.boundaries = new google.maps.LatLngBounds(
-          new google.maps.LatLng($scope.location.geometry.viewport.ea.b,$scope.location.geometry.viewport.ia.b),
-          new google.maps.LatLng($scope.location.geometry.viewport.ea.d,$scope.location.geometry.viewport.ia.d));
+          // Create boundary based on the selected area (neighorhood/city)
+          $scope.boundaries = new google.maps.LatLngBounds(
+            new google.maps.LatLng($scope.location.geometry.viewport.ea.b,$scope.location.geometry.viewport.ia.b),
+            new google.maps.LatLng($scope.location.geometry.viewport.ea.d,$scope.location.geometry.viewport.ia.d));
         } else {
+          // Create boundary in the general vicinity of the selected street
+          // +/-0.003 seems to be a good range when given just a street name.
           $scope.boundaries = new google.maps.LatLngBounds(
             new google.maps.LatLng($scope.location.geometry.location.nb-0.003,$scope.location.geometry.location.ob-0.003),
             new google.maps.LatLng($scope.location.geometry.location.nb+0.003,$scope.location.geometry.location.ob+0.003));
