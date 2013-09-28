@@ -39,7 +39,8 @@ angular.module('mean.polls', [])
         }
       }
       $scope.$on('$locationChangeStart', function(event, next, current) {
-        if ($scope.createPoll.$dirty) {
+        var pollPage = /#!\/polls\/./;
+        if ($scope.createPoll.$dirty && !pollPage.test(next)) {
           if(!confirm("Are you sure you want to leave?")) {
             event.preventDefault();
           }
