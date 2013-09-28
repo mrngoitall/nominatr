@@ -70,13 +70,6 @@ var ChoiceSchema = new Schema({
 });
 
 /**
- * Validations
- */
-ChoiceSchema.path('name').validate(function(name) {
-  return name.length;
-}, 'Name cannot be blank');
-
-/**
  * Statics
  */
 ChoiceSchema.statics = {
