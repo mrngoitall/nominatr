@@ -1,15 +1,15 @@
 <section class="container" data-ng-controller="PollsController">
   <div class="well">
-    <form class="form-horizontal" role="form">
+    <form name="createPoll" class="form-horizontal" role="form" confirm-on-exit>
       <div class="form-group">
-        <label class="col-xs-2 control-label" for="name">Name</label>
-        <div class="col-xs-10">
+        <label class="col-sm-2 control-label" for="name">Name</label>
+        <div class="col-sm-10">
           <input class="form-control" type="text" data-ng-model="name" id="name" placeholder="Name" required>
         </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-2 control-label" for="eventDate">Event Date</label>
-        <div class="col-xs-9 input-group">
+        <label class="col-sm-2 control-label" for="eventDate">Event Date</label>
+        <div class="col-sm-9 input-group">
           <!-- <input type="text" datepicker-popup="MMMM dd, yyyy" ng-model="eventDate" is-open="dateOpened" min="minDate" show-weeks="false" datepicker-options="dateOptions">
           <button class="btn" ng-click="openDate()"><i class="icon-calendar"></i></button> -->
           <span class="input-group-btn">
@@ -19,9 +19,9 @@
         </div>
       </div>
       <div class="form-group">
-        <label class="col-xs-2 control-label" for="eventTime">Event Time</label>
-        <div class="col-xs-2">
-          <div class="col-xs-2" ng-model="eventTime">
+        <label class="col-sm-2 control-label" for="eventTime">Event Time</label>
+        <div class="col-sm-2">
+          <div class="col-sm-2" ng-model="eventTime">
             <timepicker hour-step="1" minute-step="15"></timepicker>
           </div>
           <!-- <input type="text" ng-model="eventTime" bs-timepicker>
@@ -30,25 +30,25 @@
       </div>
 
       <div class="form-group">
-        <label class="col-xs-2 control-label" for="location">Location</label>
-        <div class="col-xs-10">
+        <label class="col-sm-2 control-label" for="location">Location</label>
+        <div class="col-sm-10">
           <input class="form-control" id="location" type="text" size="50">
         </div>
       </div>
 
       <div class="form-group" data-ng-repeat="choice in choices">
-        <label class="col-xs-2 control-label" for="choice" ng-show="showChoiceLabel(choice)">Choices</label>
-        <div class="col-xs-2">
+        <label class="col-sm-2 control-label" for="choice" ng-show="showChoiceLabel(choice)">Choices</label>
+        <div class="col-sm-2">
           <button ng-show="showAddChoice(choice)" ng-click="addNewChoice()" class="btn btn-info">Add another choice</button>
         </div>
-        <div class="col-xs-10 controls" >
+        <div class="col-sm-10 controls" >
           <poll-choice></poll-choice>
         </div>
       </div>
 
       <div class="form-group">
-        <div class="col-xs-2"></div>
-        <div class="col-xs-10">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
           <input type="submit" data-ng-click="create()" class="btn btn-success">
         </div>
       </div>
