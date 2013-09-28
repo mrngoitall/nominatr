@@ -100,7 +100,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
 
   $scope.showNewPollIntro = function() {
     if ($scope.poll) {
-      return $scope.poll.invitees.length === 1;
+      return ($scope.poll.invitees.length === 1 && $scope.global.user && $scope.global.user._id === $scope.poll.owner._id);
     } else {
       return false;
     }
