@@ -20,19 +20,19 @@
       <thead poll-header-row></thead>
       <tfoot>
         <tr><td>Total</td>
-          <td ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'"> {{ talliedVotes[choice._id] }}</td>
+          <td class="text-center" ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'"> {{ talliedVotes[choice._id] }}</td>
         </tr>
       </tfoot>
       <tbody>
         <tr vote-row ng-repeat="invitee in poll.invitees | orderBy:'invited'"></tr>
         <tr data-ng-show="!isParticipant"><td><input type="text" name="guest" ng-model="guestVotes.name" data-ng-show="global.user._id == null" placeholder="Your name">{{ global.user.name }}</td>
-          <td ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'">
+          <td class="text-center" ng-repeat="choice in poll.choices | filter:ignored | orderBy:'order'">
             <vote-checkbox-guest></vote-checkbox-guest>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <button data-ng-show="!isParticipant" ng-click="createGuestVotes()" class="btn">Vote</button>
+  <button data-ng-show="!isParticipant" ng-click="createGuestVotes()" class="btn btn-success">Vote</button>
 </div>
 </section>

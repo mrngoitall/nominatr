@@ -97,8 +97,7 @@ angular.module('mean.polls', [])
   return {
     restrict: 'A',
     template: '<td>{{ votes[invitee.user].name }}</td>' +
-              '<td ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'" ng-class="{success:votes[invitee.user][choice._id]}">' +
-              '<span>' +
+              '<td class="text-center" ng-repeat="choice in poll.choices | filter:ignored | orderBy:\'order\'" ng-class="{success:votes[invitee.user][choice._id]}">' +
               '<vote-checkbox data-ng-show="global.user._id == invitee.user"></vote-checkbox>' +
               '<vote-checkbox-display data-ng-show="global.user._id != invitee.user"></vote-checkbox-display>' +
               '</td>',
