@@ -41,6 +41,7 @@ describe('<Unit Test>', function() {
         });
 
         after(function(done) {
+            User.findOneAndRemove({_id: user._id});
             done();
         });
     });

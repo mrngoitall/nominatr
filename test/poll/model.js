@@ -51,7 +51,8 @@ describe('<Unit Test>', function() {
         });
 
         afterEach(function(done) {
-            User.FindOneAndRemove
+            User.findOneAndRemove({_id: user._id});
+            Poll.findOneAndRemove({_id: poll._id});
             done();
         });
     });
