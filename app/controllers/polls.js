@@ -202,7 +202,11 @@ exports.update = function(req, res) {
       // If we ever decide to let users change the order of choices, we'll need
       // to revisit this implementation.
       if (thisPoll.choices[i] && reqChoices[i]._id === thisPoll.choices[i]._id+'') {
-        if ((reqChoices[i].gid && reqChoices[i].gid !== thisPoll.choices[i].gid) || 
+        // Check if the Google Place ID has changed, or if the name no longer matches
+        // Have to check the Google Place ID because of different places with the same name
+        // Have to check the name because the Google Place ID doesn't automatically get cleared
+        // when a user changes the field to something else.
+        if ((reqChoices[i].gid && reqChoices[i].gid !== thisPoll.choices[i].gid) ||
           (reqChoices[i].name !== thisPoll.choices[i].name)) {
           console.log('choice change detected with ',reqChoices[i]._id);
           // Set the ignore attribute
