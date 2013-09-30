@@ -4,9 +4,9 @@ angular.module('mean.system').controller('IndexController', ['$scope', 'Global',
   $scope.getStartedLink = function() {
     if ($scope.global.user) {
       return '#!/polls/create';
-    } else {
-      return 'signin';
     }
+
+    return 'signin';
   };
 
 }]);

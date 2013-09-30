@@ -4,8 +4,9 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
   $scope.choices = [{id: 'choice1'}, {id: 'choice2'}, {id: 'choice3'}];
   $scope.boundchange = 0;
 
-  var input = /** @type {HTMLInputElement} */(document.getElementById('location'));
-  // Setting a default boundary for now, until we can propagate location changes to the autocompleter directive. 
+  var input = document.getElementById('location');
+  // Setting a default boundary in SF for now, until the user selects a new location
+  // and we can propagate location changes to the autocompleter directive.
   $scope.boundaries = new google.maps.LatLngBounds(
     new google.maps.LatLng(37.70339999999999,-122.527), 
     new google.maps.LatLng(37.812,-122.3482));
@@ -16,7 +17,6 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
 
     google.maps.event.addListener(autocomplete, 'place_changed', function() {
       var place = autocomplete.getPlace();
-      //console.log(place);
       if (place.geometry.viewport) {
         $scope.boundaries = new google.maps.LatLngBounds(
           new google.maps.LatLng(place.geometry.viewport.ea.b,place.geometry.viewport.ia.b),
@@ -37,7 +37,7 @@ angular.module('mean.polls').controller('PollsController', ['$rootScope', '$scop
 
   $scope.today = function() {
     $scope.eventDate = new Date();
-  // Initialize time with the nearest upcoming 15 minute interval
+    // Initialize time with the nearest upcoming 15 minute interval
     var nextMinute = Math.ceil($scope.eventDate.getMinutes()/15)*15;
     if (nextMinute === 60) {
       nextMinute = 0;
