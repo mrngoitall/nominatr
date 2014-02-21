@@ -1,5 +1,5 @@
 {
-    "db": "mongodb://10.253.16.25/mean",
+    "db": "mongodb://localhost/mean",
     "app": {
         "name": "NOMinatr - Pick your noms"
     },
