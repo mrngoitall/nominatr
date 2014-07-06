@@ -1,5 +1,4 @@
 {
-    "db": "mongodb://localhost/mean-test",
     "port": 3001,
     "app": {
         "name": "NOMinatr - Pick your noms - Test"

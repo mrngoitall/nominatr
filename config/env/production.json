@@ -1,5 +1,4 @@
 {
-    "db": "mongodb://localhost/mean",
     "app": {
         "name": "NOMinatr - Pick your noms"
     },
